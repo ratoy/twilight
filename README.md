@@ -6,4 +6,3 @@ A tool for generating wallpaper, including the following steps:
 4. Calculate moon position and draw it.
 5. The final output is a png file, which shows the current positions of sun and moon. 
 
-The whole project will be written in C, but it is still planning, not finished yet.
