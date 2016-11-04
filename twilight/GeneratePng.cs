@@ -17,19 +17,19 @@ namespace twilight
 
 			//calculate sun position and twilight
 			SunPos sunpos = new SunPos ();
-			Point p=sunpos.GetSunPos ();
-			Console.WriteLine (p.X +","+p.Y );
+			Point p = sunpos.GetSunPos ();
+			Console.WriteLine (p.X + "," + p.Y);
 			//calculate moon position
 			MoonPos moonpos = new MoonPos ();
 
 			//transform coordinates
 
 			//write to png
-			PngWriter pw = new PngWriter (Resolution.Width,Resolution.Height);
+			PngWriter pw = new PngWriter (Resolution.Width, Resolution.Height);
 			pw.SavePng ();
 		}
 
-		Size GetScreenRes()
+		Size GetScreenRes ()
 		{
 
 			return new Size (1280, 800);

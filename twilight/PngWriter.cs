@@ -86,9 +86,9 @@ namespace twilight
 			}
 
 			//transform
-			List<List<List<Point>>> PolygonFs = new List<List<List<Point>>> ();
-			List<List<List<Point>>> PolylineFs = new List<List<List<Point>>> ();
-			List<List<List<Point>>> PointFs = new List<List<List<Point>>> ();
+			List<List<List<PointF>>> PolygonFs = new List<List<List<PointF>>> ();
+			List<List<List<PointF>>> PolylineFs = new List<List<List<PointF>>> ();
+			List<List<List<PointF>>> PointFs = new List<List<List<PointF>>> ();
 
 			//draw polygon
 			Brush PolygonBrush = new SolidBrush (Color.FromArgb (180, Color.Yellow));
@@ -142,24 +142,39 @@ namespace twilight
 			pen.Dispose ();
 			FillBrush.Dispose ();
 			//draw twilightline
-			DrawTwilightline (g, Twlightline);
+			DrawTwilightline (g, Twlightline, p.Y > 0);
 		}
 
-		void DrawTwilightline (Graphics g, List<Point> Twilightline)
+		void DrawTwilightline (Graphics g, List<Point> Twilightline, bool SunInNorth)
 		{
 			List<PointF> pfList = TransPoints (new List<Point> (Twilightline));
 
-			for (int i=0; i<360; i++) {
-				//Console.WriteLine(pfList[i].X);
-				//Console.WriteLine(line[i].Y);
-				//Console.WriteLine(String.Format("x: {0}, y:{1}",line[i].X,line[i].Y));
-			}
 			PointF pf0 = new PointF ();
 			PointF pf1 = new PointF ();
+
+			if (SunInNorth) {
+				pf0.X = 0;
+				pf0.Y = m_height;
+				pf1.X = m_width;
+				pf1.Y = m_height;
+			} else {
+				pf0.X = 0;
+				pf0.Y = 0;
+				pf1.X = m_width;
+				pf1.Y = 0;
+			}
+
+			pfList.Insert (0, pf0);
+			pfList.Add (pf1);
+			foreach (var point in pfList) {
+				//Console.WriteLine (point.X);
+			}
 
 			Brush FillBrush = new SolidBrush (Color.FromArgb (100, Color.Black));
 			Pen pen = new Pen (new SolidBrush (Color.Black));
 
+			g.FillPolygon (FillBrush, pfList.ToArray ());
+			/*
 			for (int i = 0; i < pfList.Count-1; i++) {
 				PointF pf2 = pfList [i];
 				PointF pf3 = pfList [i + 1];
@@ -170,7 +185,7 @@ namespace twilight
 
 				g.FillPolygon (FillBrush, new PointF[4] { pf0, pf2, pf3, pf1 });
 			}
-
+*/
 			FillBrush.Dispose ();
 			pen.Dispose ();
 		}
