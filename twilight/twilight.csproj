@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -51,7 +52,7 @@
     <Compile Include="Geometry\MultiPoint.cs" />
     <Compile Include="Geometry\Envelope.cs" />
     <Compile Include="Geometry\EnumGeoType.cs" />
-    <Compile Include="ShapeFile\ShpReader.cs" />
+    <Compile Include="ShpReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

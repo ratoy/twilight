@@ -142,9 +142,11 @@ namespace twilight
 
 		public bool SavePng ()
 		{
+			Color BackgroundColor = Color.FromArgb (181, 208, 208);
+
 			using (Bitmap b = new Bitmap(m_width, m_height)) {
 				using (Graphics g = Graphics.FromImage(b)) {
-					g.Clear (Color.White);
+					g.Clear (BackgroundColor);
 					//draw shapefile
 					DrawShapefile (g);
 					//draw sun and twilightline
@@ -159,10 +161,13 @@ namespace twilight
 		void DrawShapefile (Graphics g)
 		{
 			string[] ShpFileNames = System.IO.Directory.GetFiles (".", "*.shp");
-			string[] ShpFileNames2 = System.IO.Directory.GetFiles ("./shape", "*.shp");
 			List<string> ShpFileList = new List<string> ();
 			ShpFileList.AddRange (ShpFileNames);
-			ShpFileList.AddRange (ShpFileNames2);
+
+			if (System.IO.Directory.Exists ("./shape")) {
+				string[] ShpFileNames2 = System.IO.Directory.GetFiles ("./shape", "*.shp");
+				ShpFileList.AddRange (ShpFileNames2);
+			}
 
 			List<List<IGeometry>> Polygons = new List<List<IGeometry>> (); 
 			List<List<IGeometry>> Polylines = new List<List<IGeometry>> (); 
@@ -207,8 +212,8 @@ namespace twilight
 				PointFs.Add ((List<IGeometry>)TransGeometry (item));
 			}
 			//draw polygon
-			Brush PolygonBrush = new SolidBrush (Color.FromArgb (180, Color.Yellow));
-			Pen PolygonPen = new Pen (new SolidBrush (Color.Yellow));
+			Brush PolygonBrush = new SolidBrush (Color.FromArgb (242, 239, 233));
+			Pen PolygonPen = new Pen (new SolidBrush (Color.FromArgb (201, 140, 198)));
 			foreach (var layer in PolygonFs) {
 				foreach (var geometry in layer) {
 					foreach (var ring in (geometry as Polygon).RingList) {
@@ -277,7 +282,7 @@ namespace twilight
 			float sunsize = 20;
 			RectangleF rf = new RectangleF (pf.X - sunsize, pf.Y - sunsize, sunsize * 2, sunsize * 2);
 			Brush FillBrush = new SolidBrush (Color.Yellow);
-			Pen pen = new Pen (new SolidBrush (Color.Red));
+			Pen pen = new Pen (new SolidBrush (Color.Red), 2f);
 			g.FillEllipse (FillBrush, rf);
 			g.DrawEllipse (pen, rf);
 

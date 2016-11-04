@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace twilight
 {
@@ -13,17 +14,7 @@ namespace twilight
 		{
 			//get screen resolution
 			Size Resolution = GetScreenRes ();
-			//read world map
-
-			//calculate sun position and twilight
-			SunPos sunpos = new SunPos ();
-			Point p = sunpos.GetSunPos ();
-			Console.WriteLine (p.X + "," + p.Y);
-			//calculate moon position
-			MoonPos moonpos = new MoonPos ();
-
-			//transform coordinates
-
+			 
 			//write to png
 			PngWriter pw = new PngWriter (Resolution.Width, Resolution.Height);
 			pw.SavePng ();
@@ -31,8 +22,8 @@ namespace twilight
 
 		Size GetScreenRes ()
 		{
-
-			return new Size (1280, 800);
+			Rectangle resolution = Screen.PrimaryScreen.Bounds;
+			return new Size (resolution.Width, resolution.Height);
 		}
 	}
 }
