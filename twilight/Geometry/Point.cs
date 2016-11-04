@@ -36,7 +36,7 @@ namespace twilight
 
 		public EnumGeoType GeoType {
 			get {
-				throw new NotImplementedException ();
+				return EnumGeoType.Point;
 			}
 		}
 

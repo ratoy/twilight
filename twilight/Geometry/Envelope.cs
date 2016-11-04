@@ -32,13 +32,13 @@ namespace twilight
 
 		public EnumGeoType GeoType {
 			get {
-				throw new NotImplementedException ();
+				return EnumGeoType.Envelope;
 			}
 		}
 
 		public Envelope Extent {
 			get {
-				throw new NotImplementedException ();
+				return Envelope (XMin, XMax, YMin, YMax);
 			}
 	}
 }
