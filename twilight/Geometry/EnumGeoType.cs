@@ -4,6 +4,7 @@ namespace twilight
 {
 	public enum EnumGeoType
 	{
+		Unknown,
 		Point,
 		MultiPoint,
 		Segment,

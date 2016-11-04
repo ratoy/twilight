@@ -1,9 +1,14 @@
 using System;
+using System.Collections.Generic;
 
 namespace twilight
 {
 	public class Envelope:IGeometry
 	{
+		public Envelope ()
+		{
+		}
+
 		public Envelope (double xmin, double xmax, double ymin, double ymax)
 		{
 			this.XMin = xmin;

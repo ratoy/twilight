@@ -7,18 +7,18 @@ namespace twilight
 		public Point ()
 		{
 		}
-		
-		public Point (double x,double y)
+
+		public Point (double x, double y)
 		{
 			Init (x, y, 0);
 		}
-		
-		public Point (double x,double y,double z)
+
+		public Point (double x, double y, double z)
 		{
 			Init (x, y, z);
 		}
 
-		void Init(double x,double y,double z)
+		void Init (double x, double y, double z)
 		{			
 			this.X = x;
 			this.Y = y;
@@ -26,13 +26,13 @@ namespace twilight
 		}
 
 		public double X
-		{get;set;}
+		{ get; set; }
 
 		public double Y
-		{ get; set;}
-	
+		{ get; set; }
+
 		public double Z
-		{ get; set;}
+		{ get; set; }
 
 		public EnumGeoType GeoType {
 			get {
@@ -42,8 +42,18 @@ namespace twilight
 
 		public Envelope Extent {
 			get {
-				throw new NotImplementedException ();
+				return new Envelope (this.X, this.X, this.Y, this.Y);
 			}
+		}
+
+		public void PutCoords (double x, double y, double z)
+		{
+			Init (x, y, z);
+		}
+
+		public void PutCoords (double x, double y)
+		{
+			Init (x, y, 0);
 		}
 	}
 }
