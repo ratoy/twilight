@@ -2,7 +2,7 @@ using System;
 
 namespace twilight
 {
-	public class Point
+	public class Point:IGeometry
 	{
 		public Point ()
 		{
@@ -33,6 +33,18 @@ namespace twilight
 	
 		public double Z
 		{ get; set;}
+
+		public EnumGeoType GeoType {
+			get {
+				throw new NotImplementedException ();
+			}
+		}
+
+		public Envelope Extent {
+			get {
+				throw new NotImplementedException ();
+			}
+		}
 	}
 }
 

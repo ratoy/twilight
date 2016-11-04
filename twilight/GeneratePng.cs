@@ -25,7 +25,7 @@ namespace twilight
 			//transform coordinates
 
 			//write to png
-			PngWriter pw = new PngWriter ();
+			PngWriter pw = new PngWriter (Resolution.Width,Resolution.Height);
 			pw.SavePng ();
 		}
 

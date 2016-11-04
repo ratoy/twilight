@@ -48,6 +48,8 @@
     <Compile Include="Geometry\Polyline.cs" />
     <Compile Include="Geometry\Polygon.cs" />
     <Compile Include="Geometry\MultiPoint.cs" />
+    <Compile Include="Geometry\Envelope.cs" />
+    <Compile Include="Geometry\EnumGeoType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

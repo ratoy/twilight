@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace twilight
 {
@@ -197,14 +198,19 @@ namespace twilight
 			return geoPoint;
 		}
 
-		void DayNightLine(Point sunpos)
+		public List<Point> GetTwilightLine()
+		{
+			return GetTwilightLine (GetSunPos ());
+		}
+
+		List<Point> GetTwilightLine(Point sunpos)
 		{
 			double LonS, LatS, LonA, LatA, LonB, LatB, ANB, BN, sita;
 			LonS = sunpos.X*PI/180;
 			LatS = -sunpos.Y*PI/180;
 			LonA = LonS - PI / 2;
 			LatA = 0;
-			Point[] line=new Point[360];
+			List<Point> line=new List<Point>();
 			int i=0;
 			for (i = 0; i < 360;i++ )
 			{
@@ -227,15 +233,21 @@ namespace twilight
 				Point c=new Point();
 				c.X=LonB * 180 / PI;
 				c.Y=LatB * 180 / PI;
-				line[i]=c;
+				line.Add(c);
+			}
+			line.Sort(new PointComparer());
+			Point AddP1=new Point (-180, line [0].Y);
+			Point AddP2=new Point(180,line[line.Count-1].Y);
+
+			line.Insert (0, AddP1);
+			line.Add (AddP2);
+			foreach (var p in line) {
+				Console.WriteLine(p.X);
+				//Console.WriteLine(p.Y);
+				//Console.WriteLine(String.Format("x: {0}, y:{1}",p.X,p.Y));
 			}
 
-			for(i=0;i<360;i++)
-			{
-				//Console.WriteLine(line[i].x);
-				//Console.WriteLine(line[i].y);
-				//Console.WriteLine(String.Format("x: {0}, y:{1}",line[i].x,line[i].y);
-			}
+			return line;
 		}
 
 		/*
@@ -247,6 +259,13 @@ namespace twilight
 		}
 */
 
+	}
+	public class PointComparer:IComparer<Point>
+	{
+		public int Compare(Point p1,Point p2)
+		{
+			return(p1.X .CompareTo(p2.X));
+		}
 	}
 }
 
