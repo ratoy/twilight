@@ -40,6 +40,7 @@
     <Compile Include="SunPos.cs" />
     <Compile Include="MoonPos.cs" />
     <Compile Include="PngWriter.cs" />
+    <Compile Include="GeneratePng.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

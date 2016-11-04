@@ -6,8 +6,8 @@ namespace twilight
 	{
 		public static void Main (string[] args)
 		{
-			PngWriter pw = new PngWriter ();
-			pw.SavePng ();
+			GeneratePng gp = new GeneratePng ();
+			gp.Do ();
 		}
 	}
 }

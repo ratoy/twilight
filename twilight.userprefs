@@ -1,8 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="twilight/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="twilight/GeneratePng.cs">
     <Files>
-      <File FileName="twilight/Program.cs" Line="1" Column="1" />
+      <File FileName="twilight/Program.cs" Line="10" Column="13" />
+      <File FileName="twilight/SunPos.cs" Line="1" Column="1" />
+      <File FileName="twilight/MoonPos.cs" Line="8" Column="4" />
+      <File FileName="twilight/PngWriter.cs" Line="27" Column="4" />
+      <File FileName="twilight/GeneratePng.cs" Line="19" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
