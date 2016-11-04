@@ -17,6 +17,8 @@ namespace twilight
 
 			//calculate sun position and twilight
 			SunPos sunpos = new SunPos ();
+			Point p=sunpos.GetSunPos ();
+			Console.WriteLine (p.X +","+p.Y );
 			//calculate moon position
 			MoonPos moonpos = new MoonPos ();
 

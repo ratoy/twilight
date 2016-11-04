@@ -41,9 +41,17 @@
     <Compile Include="MoonPos.cs" />
     <Compile Include="PngWriter.cs" />
     <Compile Include="GeneratePng.cs" />
+    <Compile Include="Geometry\IGeometry.cs" />
+    <Compile Include="Geometry\Point.cs" />
+    <Compile Include="Geometry\Ring.cs" />
+    <Compile Include="Geometry\Segment.cs" />
+    <Compile Include="Geometry\Polyline.cs" />
+    <Compile Include="Geometry\Polygon.cs" />
+    <Compile Include="Geometry\MultiPoint.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ShapeFile\" />
+    <Folder Include="Geometry\" />
   </ItemGroup>
 </Project>
