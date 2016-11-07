@@ -11,10 +11,11 @@ namespace twilight
 	{
 		int m_width = 1280, m_height = 720;
 		Color m_BackgroundColor = Color.FromArgb (181, 208, 208);
-		String m_DefaultFileName = "screen.png";
+		String m_DefaultFileName = "screen.png", m_ExeFolder = "";
 
 		public PngWriter ()
 		{
+			m_ExeFolder = Application.StartupPath;
 			//get screen resolution
 			Size Resolution = GetScreenRes ();
 			this.m_width = Resolution.Width;
@@ -183,12 +184,13 @@ namespace twilight
 
 		void DrawShapefile (Graphics g)
 		{
-			string[] ShpFileNames = System.IO.Directory.GetFiles (".", "*.shp");
+			string[] ShpFileNames = System.IO.Directory.GetFiles (m_ExeFolder, "*.shp");
 			List<string> ShpFileList = new List<string> ();
 			ShpFileList.AddRange (ShpFileNames);
 
-			if (System.IO.Directory.Exists ("./shape")) {
-				string[] ShpFileNames2 = System.IO.Directory.GetFiles ("./shape", "*.shp");
+			string ShpFolder2 = System.IO.Path.Combine (m_ExeFolder, "shape");
+			if (System.IO.Directory.Exists (ShpFolder2)) {
+				string[] ShpFileNames2 = System.IO.Directory.GetFiles (ShpFolder2, "*.shp");
 				ShpFileList.AddRange (ShpFileNames2);
 			}
 

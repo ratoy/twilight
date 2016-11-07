@@ -27,11 +27,11 @@ namespace twilight
 		}
 
 		double JulianDate (int year,               // i.e., 2004
-		                  int mon,                // 1..12
-		                  int day,                // 1..31
-		                  int hour,               // 0..23
-		                  int min,                // 0..59
-		                  double sec /* = 0.0 */) // 0..(59.999999...)
+		                   int mon,                // 1..12
+		                   int day,                // 1..31
+		                   int hour,               // 0..23
+		                   int min,                // 0..59
+		                   double sec /* = 0.0 */) // 0..(59.999999...)
 		{
 			// Calculate N, the day of the year (1..366)
 			int N;
@@ -148,11 +148,11 @@ namespace twilight
 		/// <param name="min">Minimum.</param>
 		/// <param name="sec">Sec.</param>
 		public Point GetSunPos (int year,               // i.e., 2004
-		                       int mon,                // 1..12
-		                       int day,                // 1..31
-		                       int hour,               // 0..23
-		                       int min,                // 0..59
-		                       double sec /* = 0.0 */) // 0..(59.999999...)
+		                        int mon,                // 1..12
+		                        int day,                // 1..31
+		                        int hour,               // 0..23
+		                        int min,                // 0..59
+		                        double sec /* = 0.0 */) // 0..(59.999999...)
 		{
 			double twopi = 2.0 * PI;
 			double deg2rad = PI / 180.0;
@@ -239,14 +239,6 @@ namespace twilight
 
 			return line;
 		}
-		/*
-		main()
-		{
-			Point geoPoint=SunPos(2016, 9, 14, 3, 0, 0);//UTC time
-			//printf("%f,%f",geoPoint.x,geoPoint.y);
-			DayNightLine(geoPoint);
-		}
-*/
 	}
 
 	public class PointComparer:IComparer<Point>
