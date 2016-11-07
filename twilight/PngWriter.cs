@@ -2,17 +2,58 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace twilight
 {
 	public class PngWriter
 	{
 		int m_width = 1280, m_height = 720;
+		Color m_BackgroundColor = Color.FromArgb (181, 208, 208);
+		String m_DefaultFileName = "screen.png";
 
-		public PngWriter (int width, int height)
+		public PngWriter ()
 		{
-			this.m_width = width;
-			this.m_height = height;
+			//get screen resolution
+			Size Resolution = GetScreenRes ();
+			this.m_width = Resolution.Width;
+			this.m_height = Resolution.Height;
+		}
+
+		public bool SavePng (DateTime dt, int width, int height, string pngfile)
+		{
+			if (width <= 0 || height <= 0) {
+				width = this.m_width;
+				height = this.m_height;
+			}
+ 
+			if (System.IO.Path.GetExtension (pngfile) != ".png") {
+				pngfile = m_DefaultFileName;
+			}
+			using (Bitmap b = new Bitmap(m_width, m_height)) {
+				using (Graphics g = Graphics.FromImage(b)) {
+					g.SmoothingMode = SmoothingMode.HighQuality;
+					g.Clear (m_BackgroundColor);
+					//draw shapefile
+					DrawShapefile (g);
+					//draw sun and twilightline
+					DrawSun (g, DateTime.Now);
+				}
+				b.Save (pngfile, ImageFormat.Png);
+			}
+			return true;
+		}
+
+		public bool SavePng ()
+		{
+			return SavePng (DateTime.Now, this.m_width, this.m_height, m_DefaultFileName);
+		}
+
+		Size GetScreenRes ()
+		{
+			Rectangle resolution = Screen.PrimaryScreen.Bounds;
+			return new Size (resolution.Width, resolution.Height);
 		}
 
 		List<Point> TransPoints (List<Point> SrcPoints)
@@ -140,24 +181,6 @@ namespace twilight
 			return new Envelope (xmin, xmax, ymin, ymax);
 		}
 
-		public bool SavePng ()
-		{
-			Color BackgroundColor = Color.FromArgb (181, 208, 208);
-
-			using (Bitmap b = new Bitmap(m_width, m_height)) {
-				using (Graphics g = Graphics.FromImage(b)) {
-					g.Clear (BackgroundColor);
-					//draw shapefile
-					DrawShapefile (g);
-					//draw sun and twilightline
-					DrawSun (g);
-				}
-				b.Save ("sreen.png", ImageFormat.Png);
-			}
-
-			return true;
-		}
-
 		void DrawShapefile (Graphics g)
 		{
 			string[] ShpFileNames = System.IO.Directory.GetFiles (".", "*.shp");
@@ -271,10 +294,10 @@ namespace twilight
 			return GeoList;
 		}
 
-		void DrawSun (Graphics g)
+		void DrawSun (Graphics g, DateTime dt)
 		{
 			SunPos sp = new SunPos ();
-			Point p = sp.GetSunPos ();
+			Point p = sp.GetSunPos (dt.ToUniversalTime ());
 			List<Point> Twlightline = sp.GetTwilightLine ();
 
 			List<PointF> pfList = TransPointsAsFloat (new List<Point> () { p });
@@ -321,18 +344,7 @@ namespace twilight
 			Pen pen = new Pen (new SolidBrush (Color.Black));
 
 			g.FillPolygon (FillBrush, pfList.ToArray ());
-			/*
-			for (int i = 0; i < pfList.Count-1; i++) {
-				PointF pf2 = pfList [i];
-				PointF pf3 = pfList [i + 1];
-				pf0.X = pf2.X;
-				pf0.Y = 0;
-				pf1.X = pf3.X;
-				pf1.Y = 0;
-
-				g.FillPolygon (FillBrush, new PointF[4] { pf0, pf2, pf3, pf1 });
-			}
-*/
+			 
 			FillBrush.Dispose ();
 			pen.Dispose ();
 		}

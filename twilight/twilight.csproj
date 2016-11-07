@@ -42,7 +42,6 @@
     <Compile Include="SunPos.cs" />
     <Compile Include="MoonPos.cs" />
     <Compile Include="PngWriter.cs" />
-    <Compile Include="GeneratePng.cs" />
     <Compile Include="Geometry\IGeometry.cs" />
     <Compile Include="Geometry\Point.cs" />
     <Compile Include="Geometry\Ring.cs" />

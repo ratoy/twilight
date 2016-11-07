@@ -12,18 +12,8 @@ namespace twilight
 
 		public void Do ()
 		{
-			//get screen resolution
-			Size Resolution = GetScreenRes ();
-			 
-			//write to png
-			PngWriter pw = new PngWriter (Resolution.Width, Resolution.Height);
-			pw.SavePng ();
-		}
 
-		Size GetScreenRes ()
-		{
-			Rectangle resolution = Screen.PrimaryScreen.Bounds;
-			return new Size (resolution.Width, resolution.Height);
+		
 		}
 	}
 }
