@@ -9,18 +9,17 @@
       <File FileName="twilight/Geometry/Polyline.cs" Line="1" Column="1" />
       <File FileName="twilight/Geometry/Ring.cs" Line="1" Column="1" />
       <File FileName="twilight/Geometry/Segment.cs" Line="1" Column="1" />
-      <File FileName="twilight/PngWriter.cs" Line="188" Column="49" />
-      <File FileName="twilight/SunPos.cs" Line="237" Column="65" />
+      <File FileName="twilight/PngWriter.cs" Line="26" Column="3" />
+      <File FileName="twilight/SunPos.cs" Line="1" Column="1" />
       <File FileName="twilight/Geometry/EnumGeoType.cs" Line="1" Column="1" />
       <File FileName="twilight/Program.cs" Line="1" Column="1" />
-      <File FileName="../../mono/genpath/GenPath/Program.cs" Line="1" Column="1" />
       <File FileName="twilight/MoonPos.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
+        <State expanded="True" selected="True">
           <Node name="twilight" expanded="True">
-            <Node name="PngWriter.cs" selected="True" />
+            <Node name="References" expanded="True" />
           </Node>
         </State>
       </Pad>

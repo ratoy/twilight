@@ -6,13 +6,17 @@ namespace twilight
 	{
 		public static void Main (string[] args)
 		{
-			bool SpecificTime = false, SpecificFile = false, SpecificSize = false;
+			bool SpecificTime = false, SpecificFile = false, SpecificSize = false, DebugMode = false;
 			string PngFile = "";
 			DateTime dtTime = DateTime.Now;
 			int m_Width = -1, m_Height = -1;
 
+
 			foreach (string str in args) {
 				switch (str.Trim ()) { 
+				case "-d":
+					DebugMode = true;
+					break;
 				case "-t":
 					SpecificTime = true;
 					break; 
@@ -27,6 +31,7 @@ namespace twilight
 					Console.WriteLine ();
 					Console.WriteLine ("Generate a png file filled with worldmap and twilightline");
 					Console.WriteLine ("twilight.exe -t [utc time] -o [output file name] -s [width,height]");
+					Console.WriteLine ("-d : output debug message");
 					Console.WriteLine ("-t : specific local time");
 					Console.WriteLine ("-o : output file name");
 					Console.WriteLine ("-s : specific png size, including width and height, split with ','");
@@ -54,8 +59,10 @@ namespace twilight
 					break;
 				}
 			}
+
 			//write to png
 			PngWriter pw = new PngWriter ();
+			pw.DebugMode = DebugMode;
 			pw.SavePng (dtTime, m_Width, m_Height, PngFile);
 		}
 	}
