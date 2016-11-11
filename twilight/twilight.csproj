@@ -51,11 +51,22 @@
     <Compile Include="Geometry\MultiPoint.cs" />
     <Compile Include="Geometry\Envelope.cs" />
     <Compile Include="Geometry\EnumGeoType.cs" />
-    <Compile Include="ShpReader.cs" />
+    <Compile Include="ShapeFile\ShpReader.cs" />
+    <Compile Include="Style\IStyle.cs" />
+    <Compile Include="Style\PointStyle.cs" />
+    <Compile Include="Style\LineStyle.cs" />
+    <Compile Include="Style\FillStyle.cs" />
+    <Compile Include="CustomDraw\DrawGeometry.cs" />
+    <Compile Include="CustomDraw\DrawShapeFile.cs" />
+    <Compile Include="CustomDraw\BaseCustomDraw.cs" />
+    <Compile Include="CustomDraw\DrawImg.cs" />
+    <Compile Include="Style\EnumPointStyle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ShapeFile\" />
     <Folder Include="Geometry\" />
+    <Folder Include="Style\" />
+    <Folder Include="CustomDraw\" />
   </ItemGroup>
 </Project>
