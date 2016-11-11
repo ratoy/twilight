@@ -7,6 +7,7 @@ namespace twilight
 		Circle,
 		Rectangle,
 		Cross,
+		Triangle,
 		Image
 	}
 }
