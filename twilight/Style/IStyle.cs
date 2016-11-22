@@ -2,11 +2,10 @@ using System;
 
 namespace twilight
 {
-	public class IStyle
+	public interface IStyle
 	{
-		public IStyle ()
-		{
-		}
+
+
 	}
 }
 

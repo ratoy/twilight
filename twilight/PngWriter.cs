@@ -38,6 +38,17 @@ namespace twilight
 
 		public bool SavePng2 (DateTime dt, int width, int height, string pngfile)
 		{
+			string[] ShpFileNames = System.IO.Directory.GetFiles(m_ExeFolder, "*.shp");
+			List<string> ShpFileList = new List<string>();
+			ShpFileList.AddRange(ShpFileNames);
+
+			string ShpFolder2 = System.IO.Path.Combine(m_ExeFolder, "shape");
+			if (System.IO.Directory.Exists(ShpFolder2))
+			{
+				string[] ShpFileNames2 = System.IO.Directory.GetFiles(ShpFolder2, "*.shp");
+				ShpFileList.AddRange(ShpFileNames2);
+			}
+
 			using (Bitmap b = new Bitmap(m_width, m_height)) {
 				using (Graphics g = Graphics.FromImage(b)) {
 					g.SmoothingMode = SmoothingMode.HighQuality;
@@ -59,6 +70,7 @@ namespace twilight
 
 				}
 			}
+			return true;
 		}
 
 		public bool SavePng (DateTime dt, int width, int height, string pngfile)

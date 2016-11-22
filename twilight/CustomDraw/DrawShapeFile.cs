@@ -6,120 +6,132 @@ namespace twilight
 {
 	public class DrawShapeFile:DrawGeometry
 	{
+		
 		public DrawShapeFile ()
 		{
+			
 		}
 
-		Envelope GetMapEnv ()
+		void DrawShapefile (Graphics g,String ShpFileName,IStyle style=null)
 		{
-			return new Envelope (-180, 180, -90, 90);
-		}
-
-		void DrawShapefile (Graphics g)
-		{
-			string[] ShpFileNames = System.IO.Directory.GetFiles (m_ExeFolder, "*.shp");
-			List<string> ShpFileList = new List<string> ();
-			ShpFileList.AddRange (ShpFileNames);
-
-			string ShpFolder2 = System.IO.Path.Combine (m_ExeFolder, "shape");
-			if (System.IO.Directory.Exists (ShpFolder2)) {
-				string[] ShpFileNames2 = System.IO.Directory.GetFiles (ShpFolder2, "*.shp");
-				ShpFileList.AddRange (ShpFileNames2);
-			}
-
-			List<List<IGeometry>> Polygons = new List<List<IGeometry>> (); 
-			List<List<IGeometry>> Polylines = new List<List<IGeometry>> (); 
-			List<List<IGeometry>> Points = new List<List<IGeometry>> (); 
-
 			//read
-			foreach (var shpfile in ShpFileList) {
-				List<IGeometry> GeoList = ReadShpFile (shpfile);
-				if (GeoList.Count == 0) {
-					continue;
-				}
-				switch (GeoList [0].GeoType) {
-				case EnumGeoType.Envelope:
-				case EnumGeoType.Polygon:
-				case EnumGeoType.Ring:
-					Polygons.Add (GeoList);
-					break;
+			List<IGeometry> GeoList = ReadShpFile(ShpFileName);
+			if (GeoList.Count == 0)
+			{
+				return;
+			}
+			//transform
+			EnumGeoType GeoType = GeoList[0].GeoType;
+			List<IGeometry> GeoListFs = (List<IGeometry>)TransGeometry(GeoList);
+		
+			//draw
+			switch (GeoType)
+			{
 				case EnumGeoType.Point:
-				case EnumGeoType.MultiPoint:
-					Points.Add (GeoList);
+					DrawPoint(g, GeoListFs,style as PointStyle );
 					break;
-				case EnumGeoType.Segment:
 				case EnumGeoType.Polyline:
-					Polylines.Add (GeoList);
+					DrawPolyline(g, GeoListFs, style as LineStyle);
+					break;
+				case EnumGeoType.Polygon:
+					DrawPolygon(g,GeoListFs, style as FillStyle );
 					break;
 				default:
 					break;
-				}
-			}
+			} 
+		}
 
-			//transform
-			List<List<IGeometry>> PolygonFs = new List<List<IGeometry>> ();
-			List<List<IGeometry>> PolylineFs = new List<List<IGeometry>> ();
-			List<List<IGeometry>> PointFs = new List<List<IGeometry>> ();
-			foreach (var item in Polygons) {
-				PolygonFs.Add ((List<IGeometry>)TransGeometry (item));
+		EnumGeoType GetGeoType(string ShpFile)
+		{
+			if (!System.IO.File.Exists(ShpFile))
+			{
+				return EnumGeoType.Unknown;
 			}
-			foreach (var item in Polylines) {
-				PolylineFs.Add ((List<IGeometry>)TransGeometry (item));
+			ShpReader ShpRd = new ShpReader(ShpFile);
+			return ShpRd.GeoType;
+		}
+
+		void DrawPoint(Graphics g, List<IGeometry> layer, PointStyle style = null)
+		{
+			PointStyle mystyle = style;
+			if (mystyle ==null )
+			{
+				mystyle = m_pointstyle;
 			}
-			foreach (var item in Points) {
-				PointFs.Add ((List<IGeometry>)TransGeometry (item));
-			}
-			//draw polygon
-			Brush PolygonBrush = new SolidBrush (Color.FromArgb (242, 239, 233));
-			Pen PolygonPen = new Pen (new SolidBrush (Color.FromArgb (201, 140, 198)));
-			foreach (var layer in PolygonFs) {
-				foreach (var geometry in layer) {
-					foreach (var ring in (geometry as Polygon).RingList) {
-						g.FillPolygon (PolygonBrush, ConvertToPointF (ring.PointList).ToArray ());
-						g.DrawPolygon (PolygonPen, ConvertToPointF (ring.PointList).ToArray ());
+			float pointsize = (float)mystyle.PointSize ;
+			Brush PointBrush = new SolidBrush(mystyle.PointColor);
+			Pen PointPen = new Pen(new SolidBrush(mystyle.PointColor));
+			 
+				foreach (var geometry in layer)
+				{
+					List<Point> PointList = new List<Point>();
+					if (geometry.GeoType == EnumGeoType.Point)
+					{
+						PointList.Add(geometry as Point);
 					}
-				}
-			}
-			//draw polyline
-			Pen PolylinePen = new Pen (new SolidBrush (Color.Blue));
-			foreach (var layer in PolylineFs) {
-				foreach (var geometry in layer) {
-					foreach (var segment in (geometry as Polyline).SegmentList) {
-						g.DrawLines (PolylinePen, ConvertToPointF (segment.PointList).ToArray ());
-					}
-				}
-			}
-			//draw point
-			float pointsize = 2;
-			Brush PointBrush = new SolidBrush (Color.FromArgb (210, Color.Green));
-			Pen PointPen = new Pen (new SolidBrush (Color.Green));
-			foreach (var layer in PointFs) {
-				foreach (var geometry in layer) {
-					List<Point> PointList = new List<Point> ();
-					if (geometry.GeoType == EnumGeoType.Point) {
-						PointList.Add (geometry as Point);
-					} else {
+					else {
 						PointList = (geometry as MultiPoint).PointList;
 					}
-					foreach (var point in PointList) {
-						RectangleF rf = new RectangleF ((float)point.X - pointsize, (float)point.Y - pointsize, 
-						                                (float)pointsize * 2, (float)pointsize * 2);
-						g.FillEllipse (PointBrush, rf);
-						g.DrawEllipse (PointPen, rf);
+					foreach (var point in PointList)
+					{
+						RectangleF rf = new RectangleF((float)point.X - pointsize, (float)point.Y - pointsize,
+														(float)pointsize * 2, (float)pointsize * 2);
+						g.FillEllipse(PointBrush, rf);
+						g.DrawEllipse(PointPen, rf);
 					}
 				}
+			 
+			PointBrush.Dispose();
+			PointPen.Dispose();
+		}
+
+		void DrawPolyline(Graphics g, List<IGeometry> layer, LineStyle style = null)
+		{ 
+			LineStyle mystyle = style;
+			if (mystyle == null)
+			{
+				mystyle = m_linestyle;
 			}
-			PolygonBrush.Dispose ();
-			PolygonPen.Dispose ();
-			PolylinePen.Dispose ();
-			PointBrush.Dispose ();
-			PointPen.Dispose ();
+			Pen PolylinePen = new Pen(new SolidBrush(mystyle.LineColor),(float)mystyle.LineWidth);
+			
+				foreach (var geometry in layer)
+				{
+					foreach (var segment in (geometry as Polyline).SegmentList)
+					{
+						g.DrawLines(PolylinePen, ConvertToPointF(segment.PointList).ToArray());
+					}
+				}
+			PolylinePen.Dispose();
+			}
+
+		void DrawPolygon(Graphics g,List<IGeometry> layer,FillStyle style=null)
+		{
+			FillStyle mystyle = style;
+			if (mystyle == null)
+			{
+				mystyle = m_fillstyle;
+			}
+			Brush PolygonBrush = new SolidBrush(mystyle.FillColor);
+			Pen PolygonPen = new Pen(new SolidBrush(mystyle.OutLinestyle.LineColor),
+			                         (float)mystyle.OutLinestyle.LineWidth );
+			foreach (var geometry in layer)
+			{
+				foreach (var ring in (geometry as Polygon).RingList)
+				{
+					g.FillPolygon(PolygonBrush, ConvertToPointF(ring.PointList).ToArray());
+					g.DrawPolygon(PolygonPen, ConvertToPointF(ring.PointList).ToArray());
+				}
+			}
+			PolygonBrush.Dispose();
+			PolygonPen.Dispose();
+
 		}
 
 		List<IGeometry> ReadShpFile (string ShpFile)
 		{
 			List<IGeometry> GeoList = new List<IGeometry> ();
 			ShpReader ShpRd = new ShpReader (ShpFile);
+			
 			int count = ShpRd.FeatureCount;
 			for (uint i = 0; i < count; i++) {
 				//geometry

@@ -2,7 +2,7 @@ using System;
 
 namespace twilight
 {
-	public enum EnumPointStyle
+	public enum EnumPointType
 	{
 		Circle,
 		Rectangle,

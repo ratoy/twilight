@@ -1,23 +1,20 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="twilight/Style/EnumPointStyle.cs">
+﻿<Properties StartupConfiguration="{85DEF39B-0C8A-4523-A645-DAB0EBEBCDF2}|Default">
+  <MonoDevelop.Ide.ItemProperties.twilight PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="twilight/Style/LineStyle.cs">
     <Files>
-      <File FileName="twilight/CustomDraw/DrawGeometry.cs" Line="20" Column="33" />
-      <File FileName="twilight/Style/PointStyle.cs" Line="13" Column="4" />
-      <File FileName="twilight/Style/EnumPointStyle.cs" Line="14" Column="1" />
+      <File FileName="twilight/CustomDraw/DrawGeometry.cs" Line="27" Column="14" />
+      <File FileName="twilight/Style/PointStyle.cs" Line="9" Column="28" />
+      <File FileName="twilight/Style/EnumPointStyle.cs" Line="15" Column="1" />
+      <File FileName="twilight/CustomDraw/BaseCustomDraw.cs" Line="24" Column="32" />
+      <File FileName="twilight/PngWriter.cs" Line="51" Column="4" />
+      <File FileName="twilight/Style/FillStyle.cs" Line="1" Column="1" />
+      <File FileName="twilight/Style/LineStyle.cs" Line="6" Column="31" />
+      <File FileName="twilight/CustomDraw/DrawShapeFile.cs" Line="29" Column="49" />
+      <File FileName="twilight/CustomDraw/DrawImg.cs" Line="1" Column="1" />
+      <File FileName="twilight/Style/IStyle.cs" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="twilight" expanded="True">
-            <Node name="CustomDraw" expanded="True" />
-            <Node name="ShapeFile" expanded="True" />
-            <Node name="Style" expanded="True" selected="True" />
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

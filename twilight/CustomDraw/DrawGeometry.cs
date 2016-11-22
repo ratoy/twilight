@@ -1,12 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace twilight
 {
 	public class DrawGeometry:BaseCustomDraw
 	{
+		protected PointStyle m_pointstyle;
+		protected LineStyle m_linestyle;
+		protected FillStyle m_fillstyle;
+
 		public DrawGeometry ()
 		{
+			m_pointstyle = new PointStyle(Color.FromArgb(210,Color.Green),2,EnumPointType.Circle);
+			m_linestyle = new LineStyle(Color.Blue,1);
+
+			LineStyle outline = new LineStyle(Color.FromArgb(201, 140, 198), 1);
+			m_fillstyle = new FillStyle(Color.FromArgb(242, 239, 233),outline);
 		}
 
 		Envelope GetEnv (List<Point> SrcPoints)

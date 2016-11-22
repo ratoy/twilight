@@ -12,21 +12,24 @@ namespace twilight
 		{
 		}
 
-		public abstract void Draw (Graphics g, object parameter)
+		public abstract void Draw(Graphics g, object parameter);
+
+		protected Envelope GetMapEnv ()
 		{
+			return new Envelope(-180, 180, -90, 90);
 		}
 
 		protected List<Point> TransPoints (List<Point> SrcPoints)
 		{
 			Envelope Env = GetMapEnv ();
 
-			double xscale = m_width / Env.Width, yscale = m_height / Env.Height;
+			double xscale = m_Width / Env.Width, yscale = m_Height / Env.Height;
 			List<Point> DestPoints = new List<Point> ();
 
 			foreach (var p in SrcPoints) {
 				Point pf = new Point ();
 				pf.X = ((p.X - Env.XMin) * xscale);
-				pf.Y = (m_height - (p.Y - Env.YMin) * yscale);
+				pf.Y = (m_Height - (p.Y - Env.YMin) * yscale);
 				DestPoints.Add (pf);
 			}
 			return DestPoints;
