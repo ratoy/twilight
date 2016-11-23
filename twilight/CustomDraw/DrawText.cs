@@ -3,9 +3,9 @@ using System.Drawing;
 
 namespace twilight
 {
-	public class DrawImg : BaseCustomDraw
+	public class DrawText : BaseCustomDraw
 	{
-		public DrawImg(int Width, int Height) : base(Width, Height)
+		public DrawText(int Width, int Height) : base(Width, Height)
 		{
 		}
 
@@ -15,4 +15,3 @@ namespace twilight
 		}
 	}
 }
-

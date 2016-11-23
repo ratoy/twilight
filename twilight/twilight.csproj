@@ -61,6 +61,7 @@
     <Compile Include="CustomDraw\BaseCustomDraw.cs" />
     <Compile Include="CustomDraw\DrawImg.cs" />
     <Compile Include="Style\EnumPointStyle.cs" />
+    <Compile Include="CustomDraw\DrawText.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
