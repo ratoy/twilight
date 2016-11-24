@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace twilight
 {
 	public abstract class BaseImgGenerator
@@ -28,6 +29,6 @@ namespace twilight
 		public abstract void AddText(string pText,Point pPoint, TextStyle pStyle = null);
 		public abstract void AddShapeFile(string ShapeFile,IStyle pStyle= null);
 		public abstract bool Save(string FileName);
-
+		protected abstract Point GetScreenRes();
 	}
 }

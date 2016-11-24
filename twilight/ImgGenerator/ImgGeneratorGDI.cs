@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace twilight
 {
 	public class ImgGeneratorGDI:BaseImgGenerator
@@ -16,6 +19,20 @@ namespace twilight
 			this.m_Width = width;
 			this.m_Height = height;
 			m_BackgroundColor = c;
+		}
+
+		protected override Point GetScreenRes()
+		{
+			try
+			{
+				Rectangle resolution = Screen.PrimaryScreen.Bounds;
+				return new Point(resolution.Width, resolution.Height);
+			}
+			catch (Exception ex)
+			{
+				//OutputMsg("Getting resolution error: " + ex.Message);
+				return new Point(this.m_Width, this.m_Height);
+			}
 		}
 	}
 }

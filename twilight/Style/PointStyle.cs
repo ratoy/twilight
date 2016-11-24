@@ -2,23 +2,36 @@ using System;
 
 namespace twilight
 {
-	public class PointStyle:IStyle
+	public class PointStyle : IStyle
 	{
 		double m_Size = 1;
-		RgbColor m_Color = new RgbColor (255,0,0); 
+		RgbColor m_Color = new RgbColor(255, 0, 0);
 		EnumPointType m_PointType = EnumPointType.Circle;
 
 		public PointStyle()
 		{ }
-		public PointStyle (RgbColor PointColor,double PointSize, EnumPointType PointType)
+		public PointStyle(RgbColor PointColor, double PointSize, EnumPointType PointType)
 		{
 			m_Color = PointColor;
 			m_Size = PointSize;
 			m_PointType = PointType;
 		}
+		public PointStyle(byte Red, byte Green, byte Blue, double PointSize, EnumPointType PointType)
+		{
+			m_Color = new RgbColor(Red, Green, Blue);
+			m_Size = PointSize;
+			m_PointType = PointType;
+		}
+
+		public PointStyle(byte Alpha,byte Red, byte Green, byte Blue, double PointSize, EnumPointType PointType)
+		{
+			m_Color = new RgbColor(Alpha,Red, Green, Blue);
+			m_Size = PointSize;
+			m_PointType = PointType;
+		}
 
 		public EnumPointType PointType
-		{ get { return m_PointType;}set { m_PointType = value;} }
+		{ get { return m_PointType; } set { m_PointType = value; } }
 
 		public RgbColor PointColor
 		{ get { return m_Color; } set { m_Color = value; } }

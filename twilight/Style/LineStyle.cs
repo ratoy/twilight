@@ -16,6 +16,18 @@ namespace twilight
 			m_LineWidth = LineWidth;
 		}
 
+		public LineStyle(byte Red,byte Green,byte Blue, double LineWidth)
+		{
+			m_LineColor = new RgbColor(Red,Green,Blue);
+			m_LineWidth = LineWidth;
+		}
+
+		public LineStyle(byte Alpha,byte Red, byte Green, byte Blue, double LineWidth)
+		{
+			m_LineColor = new RgbColor(Alpha,Red, Green, Blue);
+			m_LineWidth = LineWidth;
+		}
+
 		public RgbColor LineColor
 		{ get { return m_LineColor; } set { m_LineColor = value; } }
 

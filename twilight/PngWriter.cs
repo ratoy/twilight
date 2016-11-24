@@ -6,7 +6,6 @@ namespace twilight
 {
 	public class PngWriter
 	{
-		int m_width = 1280, m_height = 720;
 		RgbColor m_BackgroundColor = new RgbColor(181, 208, 208);
 		String m_DefaultFileName = "screen.png", m_ExeFolder = "";
 		DateTime m_PngTime = DateTime.Now;
@@ -15,10 +14,6 @@ namespace twilight
 		public PngWriter()
 		{
 			m_ExeFolder = Application.StartupPath;
-			//get screen resolution 
-			Point Resolution = GetScreenRes();
-			this.m_width = (int)Resolution.X;
-			this.m_height = (int)Resolution.Y;
 		}
 
 		public bool DebugMode
@@ -37,10 +32,10 @@ namespace twilight
 
 		BaseImgGenerator GetGenerator()
 		{
-			return new ImgGeneratorOpenGL(m_width, m_height, m_BackgroundColor);
+			return new ImgGeneratorOpenGL(m_BackgroundColor);
 		}
 
-		public bool SavePng2(DateTime dt, int width, int height, string pngfile)
+		List<string> GetShpFileNames()
 		{
 			string[] ShpFileNames = System.IO.Directory.GetFiles(m_ExeFolder, "*.shp");
 			List<string> ShpFileList = new List<string>();
@@ -52,6 +47,12 @@ namespace twilight
 				string[] ShpFileNames2 = System.IO.Directory.GetFiles(ShpFolder2, "*.shp");
 				ShpFileList.AddRange(ShpFileNames2);
 			}
+			return ShpFileList;
+		}
+
+		public bool SavePng2(DateTime dt, int width, int height, string pngfile)
+		{
+			List<string> ShpFileList = GetShpFileNames();
 
 			BaseImgGenerator big = GetGenerator();
 			//add shapefile
@@ -61,12 +62,32 @@ namespace twilight
 			}
 			//add twilightline
 			SunPos sp = new SunPos();
-			List<Point> Twlightline = sp.GetTwilightLine();
-			big.AddPolygon(Twilightline);
-			//add sun
 			Point sunpos = sp.GetSunPos(dt.ToUniversalTime());
-			big.AddPoint(sunpos);
+			List<Point> Twlightline = sp.GetTwilightLine();
+			if (sunpos.Y >0)
+			{
+				//sun in north
+				Twlightline.Insert(0,new Point(-180, -90));
+				Twlightline.Add( new Point(180, -90));
+			}
+			else
+			{
+				//sun in south
+				Twlightline.Insert(0, new Point(-180, 90));
+				Twlightline.Add(new Point(180, 90));
+			}
+			Polygon Polygontw = new Polygon();
+			Ring ringtw = new Ring(Twlightline);
+			Polygontw.RingList.Add(ringtw);
+
+			//style
+			FillStyle Styletw = new FillStyle(100, 0, 0, 0, 255, 0, 0, 0, 1);
+			big.AddPolygon(Polygontw,Styletw);
+			//add sun
+			PointStyle sunstyle = new PointStyle(255, 255, 0, 5, EnumPointType.Circle);
+			big.AddPoint(sunpos,sunstyle);
 			//additional lines
+			LineStyle addlinestyle = new LineStyle(80, 80, 80, 1);
 			double[] lon = { -180, 180, -180, 180, -180, 180 };
 			double[] lat = { 0, 0, 23.44, 23.44, -23.44, -23.44 };
 			for (int i = 0; i < lon.Length - 1; i += 2)
@@ -74,163 +95,24 @@ namespace twilight
 				Point p1 = new Point(lon[i], lat[i]);
 				Point p2 = new Point(lon[i + 1], lat[i + 1]);
 
-				big.AddPolyline(p1,p2);
+				Polyline polyline = new Polyline();
+				Segment seg = new Segment(new List<Point>() { p1, p2 });
+				polyline.SegmentList.Add(seg);
+				big.AddPolyline(polyline,addlinestyle);
 			}
 			//add title
+			TextStyle titlestyle = new TextStyle("Arial", 10, 50, 205, 50);
 			string text = m_PngTime.ToString("yyyy-MM-dd HH:mm:ss");
-			big.AddText(text, new Point(0, -180));
+			big.AddText(text, new Point(-180, 90));
 
-
-		}
 			return true;
 		}
-
-		public bool SavePng(DateTime dt, int width, int height, string pngfile)
-		{
-			OutputMsg("start");
-			m_PngTime = dt;
-			if (width <= 0 || height <= 0)
-			{
-				width = this.m_width;
-				height = this.m_height;
-			}
-
-			if (System.IO.Path.GetExtension(pngfile) != ".png")
-			{
-				pngfile = m_DefaultFileName;
-			}
-
-			OutputMsg("width: " + width + " , " + height);
-			OutputMsg("target file name: " + pngfile);
-			using (Bitmap b = new Bitmap(m_width, m_height))
-			{
-				using (Graphics g = Graphics.FromImage(b))
-				{
-					g.SmoothingMode = SmoothingMode.HighQuality;
-					g.Clear(m_BackgroundColor);
-					//draw shapefile
-					OutputMsg("draw shapefile...");
-					//DrawShapefile (g);
-					//draw sun and twilightline
-					OutputMsg("draw twilightline...");
-					DrawSun(g, dt);
-					//additional lines
-					OutputMsg("draw additional lines...");
-					DrawAdditionalLines(g);
-					//draw title
-					OutputMsg("draw title...");
-					DrawTitle(g);
-				}
-				OutputMsg("saving ...");
-				b.Save(pngfile, ImageFormat.Png);
-			}
-			return true;
-		}
-
+		 
 		public bool SavePng()
 		{
 			return SavePng2(DateTime.Now, this.m_width, this.m_height, m_DefaultFileName);
 		}
-
-		Point GetScreenRes()
-		{
-			try
-			{
-				Rectangle resolution = Screen.PrimaryScreen.Bounds;
-				return new Point(resolution.Width, resolution.Height);
-			}
-			catch (Exception ex)
-			{
-				OutputMsg("Getting resolution error: " + ex.Message);
-				return new Point(this.m_width, this.m_height);
-			}
-		}
-
-		List<PointF> TransPointsAsFloat(List<Point> pointlist)
-		{
-			return null;
-		}
-		void DrawSun(Graphics g, DateTime dt)
-		{
-			SunPos sp = new SunPos();
-			Point p = sp.GetSunPos(dt.ToUniversalTime());
-
-			List<Point> Twlightline = sp.GetTwilightLine();
-
-			List<PointF> pfList = TransPointsAsFloat(new List<Point>() { p });
-			PointF pf = pfList[0];
-			float sunsize = 20;
-			RectangleF rf = new RectangleF(pf.X - sunsize, pf.Y - sunsize, sunsize * 2, sunsize * 2);
-			Brush FillBrush = new SolidBrush(Color.Yellow);
-			Pen pen = new Pen(new SolidBrush(Color.Red), 2f);
-			g.FillEllipse(FillBrush, rf);
-			g.DrawEllipse(pen, rf);
-
-			pen.Dispose();
-			FillBrush.Dispose();
-			//draw twilightline
-			DrawTwilightline(g, Twlightline, p.Y > 0);
-		}
-
-		void DrawTwilightline(Graphics g, List<Point> Twilightline, bool SunInNorth)
-		{
-			List<PointF> pfList = TransPointsAsFloat(new List<Point>(Twilightline));
-
-			PointF pf0 = new PointF();
-			PointF pf1 = new PointF();
-
-			if (SunInNorth)
-			{
-				pf0.X = 0;
-				pf0.Y = m_height;
-				pf1.X = m_width;
-				pf1.Y = m_height;
-			}
-			else {
-				pf0.X = 0;
-				pf0.Y = 0;
-				pf1.X = m_width;
-				pf1.Y = 0;
-			}
-
-			pfList.Insert(0, pf0);
-			pfList.Add(pf1);
-			foreach (var point in pfList)
-			{
-				//Console.WriteLine (point.X);
-			}
-
-			Brush FillBrush = new SolidBrush(Color.FromArgb(100, Color.Black));
-			Pen pen = new Pen(new SolidBrush(Color.Black));
-
-			g.FillPolygon(FillBrush, pfList.ToArray());
-
-			FillBrush.Dispose();
-			pen.Dispose();
-		}
-
-		void DrawAdditionalLines(Graphics g)
-		{
-			Pen pen = new Pen(new SolidBrush(Color.FromArgb(80, 80, 80)), 1);
-			pen.DashStyle = DashStyle.Dash;
-			double[] lon = { -180, 180, -180, 180, -180, 180 };
-			double[] lat = { 0, 0, 23.44, 23.44, -23.44, -23.44 };
-			for (int i = 0; i < lon.Length - 1; i += 2)
-			{
-				Point p1 = new Point(lon[i], lat[i]);
-				Point p2 = new Point(lon[i + 1], lat[i + 1]);
-
-				List<PointF> pflist = TransPointsAsFloat(new List<Point>() { p1, p2 });
-				g.DrawLine(pen, pflist[0], pflist[1]);
-			}
-			pen.Dispose();
-		}
-
-		void DrawTitle(Graphics g)
-		{
-			string text = m_PngTime.ToString("yyyy-MM-dd HH:mm:ss");
-			g.DrawString(text, new Font("Arial", 10), new SolidBrush(Color.Lime), new PointF(0, 0));
-		}
+  
 	}
 }
 
