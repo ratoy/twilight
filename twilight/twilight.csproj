@@ -62,6 +62,11 @@
     <Compile Include="CustomDraw\DrawImg.cs" />
     <Compile Include="Style\EnumPointStyle.cs" />
     <Compile Include="CustomDraw\DrawText.cs" />
+    <Compile Include="Style\RgbColor.cs" />
+    <Compile Include="ImgGenerator\BaseImgGenerator.cs" />
+    <Compile Include="ImgGenerator\ImgGeneratorGDI.cs" />
+    <Compile Include="ImgGenerator\ImgGeneratorOpenGL.cs" />
+    <Compile Include="Style\TextStyle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -69,5 +74,6 @@
     <Folder Include="Geometry\" />
     <Folder Include="Style\" />
     <Folder Include="CustomDraw\" />
+    <Folder Include="ImgGenerator\" />
   </ItemGroup>
 </Project>

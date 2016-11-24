@@ -1,16 +1,15 @@
 using System;
-using System.Drawing;
 
 namespace twilight
 {
 	public class FillStyle:IStyle
 	{
 		LineStyle m_OutLinestyle;
-		Color m_FillColor = Color.Black;
+		RgbColor m_FillColor = new RgbColor(0, 0, 0);
 
 		public FillStyle()
 		{ }
-		public FillStyle (Color FillColor ,LineStyle OutLinestyle)
+		public FillStyle (RgbColor FillColor ,LineStyle OutLinestyle)
 		{
 			m_FillColor = FillColor;
 			m_OutLinestyle = OutLinestyle;
@@ -19,7 +18,7 @@ namespace twilight
 		public LineStyle OutLinestyle
 		{ get { return m_OutLinestyle; } set { m_OutLinestyle = value; }}
 
-		public Color FillColor
+		public RgbColor FillColor
 		{ get { return m_FillColor; } set { m_FillColor = value;}}
 	}
 }

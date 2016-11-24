@@ -1,17 +1,16 @@
 using System;
-using System.Drawing;
 
 namespace twilight
 {
 	public class PointStyle:IStyle
 	{
 		double m_Size = 1;
-		Color m_Color = Color.Red;
+		RgbColor m_Color = new RgbColor (255,0,0); 
 		EnumPointType m_PointType = EnumPointType.Circle;
 
 		public PointStyle()
 		{ }
-		public PointStyle (Color PointColor,double PointSize, EnumPointType PointType)
+		public PointStyle (RgbColor PointColor,double PointSize, EnumPointType PointType)
 		{
 			m_Color = PointColor;
 			m_Size = PointSize;
@@ -21,7 +20,7 @@ namespace twilight
 		public EnumPointType PointType
 		{ get { return m_PointType;}set { m_PointType = value;} }
 
-		public Color PointColor
+		public RgbColor PointColor
 		{ get { return m_Color; } set { m_Color = value; } }
 
 		public double PointSize

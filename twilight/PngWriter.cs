@@ -1,8 +1,5 @@
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace twilight
@@ -10,7 +7,7 @@ namespace twilight
 	public class PngWriter
 	{
 		int m_width = 1280, m_height = 720;
-		Color m_BackgroundColor = Color.FromArgb(181, 208, 208);
+		RgbColor m_BackgroundColor = new RgbColor(181, 208, 208);
 		String m_DefaultFileName = "screen.png", m_ExeFolder = "";
 		DateTime m_PngTime = DateTime.Now;
 		bool m_DebugMode = false;
@@ -19,9 +16,9 @@ namespace twilight
 		{
 			m_ExeFolder = Application.StartupPath;
 			//get screen resolution 
-			Size Resolution = GetScreenRes();
-			this.m_width = Resolution.Width;
-			this.m_height = Resolution.Height;
+			Point Resolution = GetScreenRes();
+			this.m_width = (int)Resolution.X;
+			this.m_height = (int)Resolution.Y;
 		}
 
 		public bool DebugMode
@@ -38,6 +35,11 @@ namespace twilight
 			}
 		}
 
+		BaseImgGenerator GetGenerator()
+		{
+			return new ImgGeneratorOpenGL(m_width, m_height, m_BackgroundColor);
+		}
+
 		public bool SavePng2(DateTime dt, int width, int height, string pngfile)
 		{
 			string[] ShpFileNames = System.IO.Directory.GetFiles(m_ExeFolder, "*.shp");
@@ -51,31 +53,35 @@ namespace twilight
 				ShpFileList.AddRange(ShpFileNames2);
 			}
 
-			using (Bitmap b = new Bitmap(m_width, m_height))
+			BaseImgGenerator big = GetGenerator();
+			//add shapefile
+			foreach (var item in ShpFileList)
 			{
-				using (Graphics g = Graphics.FromImage(b))
-				{
-					g.SmoothingMode = SmoothingMode.HighQuality;
-					g.Clear(m_BackgroundColor);
-
-					// drawimg di=new drawimg(m_width,m_height);
-					//di.draw(g,imgfile,pos);
-					//di.draw(g,imgfile,rectangle);
-
-					foreach (var item in ShpFileList)
-					{
-						DrawShapeFile ds = new DrawShapeFile(m_width, m_height);
-						ds.Draw(g, item);
-					}
-					//drawgeometry dg=new drawgeometry(m_width,m_height);
-					//dg.draw(g,geo,style);
-					//dg.draw(g,pointlist,geotype,style);
-
-					//drawtext dt=new drawtext(m_width,m_height);
-					//dt.draw(g,string,pos,style);
-
-				}
+				big.AddShapeFile(item);
 			}
+			//add twilightline
+			SunPos sp = new SunPos();
+			List<Point> Twlightline = sp.GetTwilightLine();
+			big.AddPolygon(Twilightline);
+			//add sun
+			Point sunpos = sp.GetSunPos(dt.ToUniversalTime());
+			big.AddPoint(sunpos);
+			//additional lines
+			double[] lon = { -180, 180, -180, 180, -180, 180 };
+			double[] lat = { 0, 0, 23.44, 23.44, -23.44, -23.44 };
+			for (int i = 0; i < lon.Length - 1; i += 2)
+			{
+				Point p1 = new Point(lon[i], lat[i]);
+				Point p2 = new Point(lon[i + 1], lat[i + 1]);
+
+				big.AddPolyline(p1,p2);
+			}
+			//add title
+			string text = m_PngTime.ToString("yyyy-MM-dd HH:mm:ss");
+			big.AddText(text, new Point(0, -180));
+
+
+		}
 			return true;
 		}
 
@@ -126,17 +132,17 @@ namespace twilight
 			return SavePng2(DateTime.Now, this.m_width, this.m_height, m_DefaultFileName);
 		}
 
-		Size GetScreenRes()
+		Point GetScreenRes()
 		{
 			try
 			{
 				Rectangle resolution = Screen.PrimaryScreen.Bounds;
-				return new Size(resolution.Width, resolution.Height);
+				return new Point(resolution.Width, resolution.Height);
 			}
 			catch (Exception ex)
 			{
 				OutputMsg("Getting resolution error: " + ex.Message);
-				return new Size(this.m_width, this.m_height);
+				return new Point(this.m_width, this.m_height);
 			}
 		}
 

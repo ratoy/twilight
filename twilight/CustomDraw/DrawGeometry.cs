@@ -12,11 +12,11 @@ namespace twilight
 
 		public DrawGeometry(int Width, int Height):base(Width,Height)
 		{
-			m_pointstyle = new PointStyle(Color.FromArgb(210, Color.Green), 2, EnumPointType.Circle);
-			m_linestyle = new LineStyle(Color.Blue, 1);
+			m_pointstyle = new PointStyle(new RgbColor(210,0,255,0), 2, EnumPointType.Circle);
+			m_linestyle = new LineStyle(new RgbColor(0,0,255), 1);
 
-			LineStyle outline = new LineStyle(Color.FromArgb(201, 140, 198), 1);
-			m_fillstyle = new FillStyle(Color.FromArgb(242, 239, 233), outline);
+			LineStyle outline = new LineStyle(new RgbColor(201, 140, 198), 1);
+			m_fillstyle = new FillStyle(new RgbColor(242, 239, 233), outline);
 		}
 
 		Envelope GetEnv(List<Point> SrcPoints)
