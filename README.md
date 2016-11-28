@@ -11,3 +11,5 @@ A tool for generating wallpaper, including the following steps:
 
 5. The final output is a png file, which shows the current positions of sun and moon. 
 
+Here is a sample output:
+![Alt text](./sampleimg/screen.png)
