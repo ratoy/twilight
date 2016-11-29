@@ -30,9 +30,9 @@ namespace twilight
 			}
 		}
 
-		BaseImgGenerator GetGenerator()
+		BaseImgGenerator GetGenerator(int width, int height)
 		{
-			return new ImgGeneratorOpenGL(m_BackgroundColor);
+			return new ImgGeneratorGDI(width, height, m_BackgroundColor);
 		}
 
 		List<string> GetShpFileNames()
@@ -50,25 +50,31 @@ namespace twilight
 			return ShpFileList;
 		}
 
-		public bool SavePng2(DateTime dt, int width, int height, string pngfile)
+		public bool SavePng2(DateTime dt, string pngfile, int width = -1, int height = -1)
 		{
 			List<string> ShpFileList = GetShpFileNames();
 
-			BaseImgGenerator big = GetGenerator();
+			OutputMsg("begin...");
+
+			BaseImgGenerator big = GetGenerator(width, height);
+			OutputMsg("generator inited ...");
 			//add shapefile
 			foreach (var item in ShpFileList)
 			{
-				big.AddShapeFile(item);
+				big.AddShapeFile(item, new FillStyle(242, 239, 233, 201, 140, 198, 1));
 			}
+			OutputMsg("shapfile added ...");
 			//add twilightline
 			SunPos sp = new SunPos();
 			Point sunpos = sp.GetSunPos(dt.ToUniversalTime());
+			OutputMsg("got sun position ...");
 			List<Point> Twlightline = sp.GetTwilightLine();
-			if (sunpos.Y >0)
+			OutputMsg("got twilightline position ...");
+			if (sunpos.Y > 0)
 			{
 				//sun in north
-				Twlightline.Insert(0,new Point(-180, -90));
-				Twlightline.Add( new Point(180, -90));
+				Twlightline.Insert(0, new Point(-180, -90));
+				Twlightline.Add(new Point(180, -90));
 			}
 			else
 			{
@@ -82,10 +88,12 @@ namespace twilight
 
 			//style
 			FillStyle Styletw = new FillStyle(100, 0, 0, 0, 255, 0, 0, 0, 1);
-			big.AddPolygon(Polygontw,Styletw);
+			big.AddPolygon(Polygontw, Styletw);
+			OutputMsg("twilightline added ...");
 			//add sun
 			PointStyle sunstyle = new PointStyle(255, 255, 0, 5, EnumPointType.Circle);
-			big.AddPoint(sunpos,sunstyle);
+			big.AddPoint(sunpos, sunstyle);
+			OutputMsg("sun added ...");
 			//additional lines
 			LineStyle addlinestyle = new LineStyle(80, 80, 80, 1);
 			double[] lon = { -180, 180, -180, 180, -180, 180 };
@@ -98,21 +106,28 @@ namespace twilight
 				Polyline polyline = new Polyline();
 				Segment seg = new Segment(new List<Point>() { p1, p2 });
 				polyline.SegmentList.Add(seg);
-				big.AddPolyline(polyline,addlinestyle);
+				big.AddPolyline(polyline, addlinestyle);
 			}
+			OutputMsg("additional lines added ...");
 			//add title
 			TextStyle titlestyle = new TextStyle("Arial", 10, 50, 205, 50);
 			string text = m_PngTime.ToString("yyyy-MM-dd HH:mm:ss");
 			big.AddText(text, new Point(-180, 90));
+			OutputMsg("title added ...");
+
+			OutputMsg("saving...");
+			string filename = pngfile.Trim().Length == 0 ? m_DefaultFileName : pngfile;
+			big.Save(filename);
+			OutputMsg("finished!");
 
 			return true;
 		}
-		 
+
 		public bool SavePng()
 		{
-			return SavePng2(DateTime.Now, this.m_width, this.m_height, m_DefaultFileName);
+			return SavePng2(DateTime.Now, m_DefaultFileName);
 		}
-  
+
 	}
 }
 

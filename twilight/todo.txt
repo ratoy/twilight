@@ -1,1 +1,1 @@
-﻿
+﻿PngWriter -> ImgGenerator -> IGeoDrawer -> TransPoint, DrawGeometry, DrawText

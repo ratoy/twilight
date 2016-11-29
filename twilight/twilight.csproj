@@ -56,16 +56,10 @@
     <Compile Include="Style\PointStyle.cs" />
     <Compile Include="Style\LineStyle.cs" />
     <Compile Include="Style\FillStyle.cs" />
-    <Compile Include="CustomDraw\DrawGeometry.cs" />
-    <Compile Include="CustomDraw\DrawShapeFile.cs" />
-    <Compile Include="CustomDraw\BaseCustomDraw.cs" />
-    <Compile Include="CustomDraw\DrawImg.cs" />
     <Compile Include="Style\EnumPointStyle.cs" />
-    <Compile Include="CustomDraw\DrawText.cs" />
     <Compile Include="Style\RgbColor.cs" />
     <Compile Include="ImgGenerator\BaseImgGenerator.cs" />
     <Compile Include="ImgGenerator\ImgGeneratorGDI.cs" />
-    <Compile Include="ImgGenerator\ImgGeneratorOpenGL.cs" />
     <Compile Include="Style\TextStyle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -73,7 +67,9 @@
     <Folder Include="ShapeFile\" />
     <Folder Include="Geometry\" />
     <Folder Include="Style\" />
-    <Folder Include="CustomDraw\" />
     <Folder Include="ImgGenerator\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="todo.txt" />
   </ItemGroup>
 </Project>
