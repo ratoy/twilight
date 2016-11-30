@@ -74,7 +74,7 @@ namespace twilight
 			//write to png
 			PngWriter pw = new PngWriter();
 			pw.DebugMode = DebugMode;
-			pw.SavePng2(dtTime, PngFile, m_Width, m_Height);
+			pw.SavePng(dtTime, PngFile, m_Width, m_Height);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace twilight
 {
@@ -53,13 +54,66 @@ namespace twilight
 			m_YScale = m_Height / (m_YMax - m_YMin);
 		}
 
-		public abstract void AddGeometry(IGeometry pGeometry, IStyle pStyle = null);
+
+		protected List<IGeometry> ReadShpFile(string ShpFile)
+		{
+			List<IGeometry> GeoList = new List<IGeometry>();
+			ShpReader ShpRd = new ShpReader(ShpFile);
+
+			int count = ShpRd.FeatureCount;
+			for (uint i = 0; i < count; i++)
+			{
+				//geometry
+				IGeometry g = ShpRd.ReadGeometry(i);
+				GeoList.Add(g);
+			}
+			return GeoList;
+		}
+
+		public void AddShapeFile(string ShapeFile, IStyle pStyle = null)
+		{
+			//read
+			List<IGeometry> GeoList = ReadShpFile(ShapeFile);
+			if (GeoList.Count == 0)
+			{
+				return;
+			}
+
+			foreach (var item in GeoList)
+			{
+				AddGeometry(item, pStyle);
+			}
+		}
+
+		public void AddGeometry(IGeometry pGeometry, IStyle pStyle = null)
+		{
+			if (pGeometry == null)
+			{
+				return;
+			}
+			switch (pGeometry.GeoType)
+			{
+				case EnumGeoType.Point:
+				case EnumGeoType.MultiPoint:
+					AddPoint(pGeometry as Point, pStyle as PointStyle);
+					break;
+				case EnumGeoType.Polyline:
+					AddPolyline(pGeometry as Polyline, pStyle as LineStyle);
+					break;
+				case EnumGeoType.Polygon:
+					AddPolygon(pGeometry as Polygon, pStyle as FillStyle);
+					break;
+				default:
+					break;
+			}
+		}
+
 		public abstract void AddPoint(Point pPoint, PointStyle pStyle = null);
 		public abstract void AddPolyline(Polyline pPolyline, LineStyle pStyle = null);
 		public abstract void AddPolygon(Polygon pGeometry, FillStyle pStyle = null);
-
+		public abstract void AddImage(string ImgFileName, Point pPoint);
+		public abstract void AddImage(string ImgFileName, Envelope pEnv);
 		public abstract void AddText(string pText, Point pPoint, TextStyle pStyle = null);
-		public abstract void AddShapeFile(string ShapeFile, IStyle pStyle = null);
 		public abstract bool Save(string FileName);
 		protected abstract Point GetScreenRes();
 	}

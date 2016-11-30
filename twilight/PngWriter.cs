@@ -7,6 +7,12 @@ namespace twilight
 	public class PngWriter
 	{
 		RgbColor m_BackgroundColor = new RgbColor(181, 208, 208);
+		FillStyle m_ShapeStyle = new FillStyle(242, 239, 233, 201, 140, 198, 1);
+		FillStyle m_TwilightStyle = new FillStyle(100, 0, 0, 0, 255, 0, 0, 0, 1);
+		PointStyle m_SunStyle = new PointStyle(255, 255, 0, 10, EnumPointType.Circle);
+		LineStyle m_AddlineStyle = new LineStyle(80, 80, 80, 1);
+		TextStyle m_TitleStyle = new TextStyle("Arial", 18, true, false, 50, 205, 50);
+
 		String m_DefaultFileName = "screen.png", m_ExeFolder = "";
 		DateTime m_PngTime = DateTime.Now;
 		bool m_DebugMode = false;
@@ -50,18 +56,19 @@ namespace twilight
 			return ShpFileList;
 		}
 
-		public bool SavePng2(DateTime dt, string pngfile, int width = -1, int height = -1)
+		public bool SavePng(DateTime dt, string pngfile, int width = -1, int height = -1)
 		{
-			List<string> ShpFileList = GetShpFileNames();
-
 			OutputMsg("begin...");
 
 			BaseImgGenerator big = GetGenerator(width, height);
 			OutputMsg("generator inited ...");
+			//big.AddImage("image.png", new Envelope(-180, 180, -90, 90));
 			//add shapefile
+			List<string> ShpFileList = GetShpFileNames();
+
 			foreach (var item in ShpFileList)
 			{
-				big.AddShapeFile(item, new FillStyle(242, 239, 233, 201, 140, 198, 1));
+				big.AddShapeFile(item, m_ShapeStyle);
 			}
 			OutputMsg("shapfile added ...");
 			//add twilightline
@@ -87,15 +94,12 @@ namespace twilight
 			Polygontw.RingList.Add(ringtw);
 
 			//style
-			FillStyle Styletw = new FillStyle(100, 0, 0, 0, 255, 0, 0, 0, 1);
-			big.AddPolygon(Polygontw, Styletw);
+			big.AddPolygon(Polygontw, m_TwilightStyle);
 			OutputMsg("twilightline added ...");
 			//add sun
-			PointStyle sunstyle = new PointStyle(255, 255, 0, 10, EnumPointType.Circle);
-			big.AddPoint(sunpos, sunstyle);
+			big.AddPoint(sunpos, m_SunStyle);
 			OutputMsg("sun added ...");
 			//additional lines
-			LineStyle addlinestyle = new LineStyle(80, 80, 80, 1);
 			double[] lon = { -180, 180, -180, 180, -180, 180 };
 			double[] lat = { 0, 0, 23.44, 23.44, -23.44, -23.44 };
 			for (int i = 0; i < lon.Length - 1; i += 2)
@@ -106,13 +110,12 @@ namespace twilight
 				Polyline polyline = new Polyline();
 				Segment seg = new Segment(new List<Point>() { p1, p2 });
 				polyline.SegmentList.Add(seg);
-				big.AddPolyline(polyline, addlinestyle);
+				big.AddPolyline(polyline, m_AddlineStyle);
 			}
 			OutputMsg("additional lines added ...");
 			//add title
-			TextStyle titlestyle = new TextStyle("Arial", 10, 50, 205, 50);
 			string text = m_PngTime.ToString("yyyy-MM-dd HH:mm:ss");
-			big.AddText(text, new Point(-180, 90), titlestyle);
+			big.AddText(text, new Point(-180, 90), m_TitleStyle);
 			OutputMsg("title added ...");
 
 			OutputMsg("saving...");
@@ -125,7 +128,7 @@ namespace twilight
 
 		public bool SavePng()
 		{
-			return SavePng2(DateTime.Now, m_DefaultFileName);
+			return SavePng(DateTime.Now, m_DefaultFileName);
 		}
 
 	}

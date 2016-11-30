@@ -1,1 +1,1 @@
-﻿PngWriter -> ImgGenerator -> IGeoDrawer -> TransPoint, DrawGeometry, DrawText
+﻿add config file for style and layer

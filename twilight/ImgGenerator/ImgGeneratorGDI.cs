@@ -45,8 +45,6 @@ namespace twilight
 
 		PointF TransPoint(Point p)
 		{
-			Point DestPoints = new Point();
-
 			PointF pf = new PointF();
 			pf.X = (float)((p.X - m_XMin) * m_XScale);
 			pf.Y = (float)(m_Height - (p.Y - m_YMin) * m_YScale);
@@ -65,28 +63,6 @@ namespace twilight
 
 		#endregion
 
-		public override void AddGeometry(IGeometry pGeometry, IStyle pStyle = null)
-		{
-			if (pGeometry == null)
-			{
-				return;
-			}
-			switch (pGeometry.GeoType)
-			{
-				case EnumGeoType.Point:
-				case EnumGeoType.MultiPoint:
-					AddPoint(pGeometry as Point, pStyle as PointStyle);
-					break;
-				case EnumGeoType.Polyline:
-					AddPolyline(pGeometry as Polyline, pStyle as LineStyle);
-					break;
-				case EnumGeoType.Polygon:
-					AddPolygon(pGeometry as Polygon, pStyle as FillStyle);
-					break;
-				default:
-					break;
-			}
-		}
 		public override void AddPoint(Point pPoint, PointStyle pStyle = null)
 		{
 			if (pPoint == null)
@@ -162,41 +138,67 @@ namespace twilight
 			{
 				pStyle = m_DefaultTextStyle as TextStyle;
 			}
-			Font f = new Font(pStyle.FontName, (float)pStyle.FontSize);
+			FontStyle fs = pStyle.Bold ? FontStyle.Bold : FontStyle.Regular;
+			if (pStyle.Italic)
+			{
+				if (pStyle.Bold)
+				{
+					fs = FontStyle.Bold | FontStyle.Italic;
+				}
+				else
+				{
+					fs = FontStyle.Italic;
+				}
+			}
+			else if (pStyle.Bold)
+			{
+				fs = FontStyle.Bold;
+			}
+			Font f = new Font(pStyle.FontName, (float)pStyle.FontSize, fs, GraphicsUnit.Pixel);
 			SolidBrush brush = new SolidBrush(StyleToColor(pStyle.FontColor));
 			g.DrawString(pText, f, brush, TransPoint(pPoint));
 			brush.Dispose();
 			f.Dispose();
 		}
 
-		List<IGeometry> ReadShpFile(string ShpFile)
+		public override void AddImage(string ImgFileName, Point pPoint)
 		{
-			List<IGeometry> GeoList = new List<IGeometry>();
-			ShpReader ShpRd = new ShpReader(ShpFile);
-
-			int count = ShpRd.FeatureCount;
-			for (uint i = 0; i < count; i++)
+			if (!System.IO.File.Exists(ImgFileName))
 			{
-				//geometry
-				IGeometry g = ShpRd.ReadGeometry(i);
-				GeoList.Add(g);
+				return;
 			}
-			return GeoList;
+			Image img = Image.FromFile(ImgFileName);
+			if (img == null)
+			{
+				return;
+			}
+			PointF StartPoint = TransPoint(pPoint);
+			RectangleF RectF = new RectangleF(StartPoint.X, StartPoint.Y, img.Width, img.Height);
+
+			g.DrawImage(img, RectF);
+
+			img.Dispose();
 		}
 
-		public override void AddShapeFile(string ShapeFile, IStyle pStyle = null)
+		public override void AddImage(string ImgFileName, Envelope pEnv)
 		{
-			//read
-			List<IGeometry> GeoList = ReadShpFile(ShapeFile);
-			if (GeoList.Count == 0)
+			if (!System.IO.File.Exists(ImgFileName))
+			{
+				return;
+			}
+			Image img = Image.FromFile(ImgFileName);
+			if (img == null)
 			{
 				return;
 			}
 
-			foreach (var item in GeoList)
-			{
-				AddGeometry(item, pStyle);
-			}
+			//reverse y axis in gdi
+			PointF MinP = TransPoint(new Point(pEnv.XMin, pEnv.YMax));
+			PointF MaxP = TransPoint(new Point(pEnv.XMax, pEnv.YMin));
+			RectangleF RectF = new RectangleF(MinP.X, MinP.Y, MaxP.X - MinP.X, MaxP.Y - MinP.Y);
+
+			g.DrawImage(img, RectF);
+			img.Dispose();
 		}
 
 		public override bool Save(string FileName)
