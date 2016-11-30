@@ -9,7 +9,7 @@ namespace twilight
 		RgbColor m_BackgroundColor = new RgbColor(181, 208, 208);
 		FillStyle m_ShapeStyle = new FillStyle(242, 239, 233, 201, 140, 198, 1);
 		FillStyle m_TwilightStyle = new FillStyle(100, 0, 0, 0, 255, 0, 0, 0, 1);
-		PointStyle m_SunStyle = new PointStyle(255, 255, 0, 10, EnumPointType.Circle);
+		PointStyle m_SunStyle = new PointStyle(255, 255, 0, 18, EnumPointType.Circle);
 		LineStyle m_AddlineStyle = new LineStyle(80, 80, 80, 1);
 		TextStyle m_TitleStyle = new TextStyle("Arial", 18, true, false, 50, 205, 50);
 
@@ -62,15 +62,36 @@ namespace twilight
 
 			BaseImgGenerator big = GetGenerator(width, height);
 			OutputMsg("generator inited ...");
-			//big.AddImage("image.png", new Envelope(-180, 180, -90, 90));
-			//add shapefile
-			List<string> ShpFileList = GetShpFileNames();
-
-			foreach (var item in ShpFileList)
+			if (System.IO.File.Exists("world.jpg"))
 			{
-				big.AddShapeFile(item, m_ShapeStyle);
+				//add background image
+				big.AddImage("world.jpg", new Envelope(-180, 180, -90, 90));
+				OutputMsg("background image added ...");
 			}
-			OutputMsg("shapfile added ...");
+			else
+			{
+				//add shapefile
+				List<string> ShpFileList = GetShpFileNames();
+
+				foreach (var item in ShpFileList)
+				{
+					big.AddShapeFile(item, m_ShapeStyle);
+				}
+				OutputMsg("shapfile added ...");
+			}
+			//additional lines
+			double[] lon = { -180, 180, -180, 180, -180, 180 };
+			double[] lat = { 0, 0, 23.44, 23.44, -23.44, -23.44 };
+			for (int i = 0; i < lon.Length - 1; i += 2)
+			{
+				Point p1 = new Point(lon[i], lat[i]);
+				Point p2 = new Point(lon[i + 1], lat[i + 1]);
+
+				Polyline polyline = new Polyline();
+				Segment seg = new Segment(new List<Point>() { p1, p2 });
+				polyline.SegmentList.Add(seg);
+				big.AddPolyline(polyline, m_AddlineStyle);
+			}
 			//add twilightline
 			SunPos sp = new SunPos();
 			Point sunpos = sp.GetSunPos(dt.ToUniversalTime());
@@ -99,19 +120,7 @@ namespace twilight
 			//add sun
 			big.AddPoint(sunpos, m_SunStyle);
 			OutputMsg("sun added ...");
-			//additional lines
-			double[] lon = { -180, 180, -180, 180, -180, 180 };
-			double[] lat = { 0, 0, 23.44, 23.44, -23.44, -23.44 };
-			for (int i = 0; i < lon.Length - 1; i += 2)
-			{
-				Point p1 = new Point(lon[i], lat[i]);
-				Point p2 = new Point(lon[i + 1], lat[i + 1]);
 
-				Polyline polyline = new Polyline();
-				Segment seg = new Segment(new List<Point>() { p1, p2 });
-				polyline.SegmentList.Add(seg);
-				big.AddPolyline(polyline, m_AddlineStyle);
-			}
 			OutputMsg("additional lines added ...");
 			//add title
 			string text = m_PngTime.ToString("yyyy-MM-dd HH:mm:ss");

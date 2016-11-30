@@ -6,7 +6,7 @@ namespace twilight
 	{
 		public static void Main(string[] args)
 		{
-			bool SpecificTime = false, SpecificFile = false, SpecificSize = false, DebugMode = true;
+			bool SpecificTime = false, SpecificFile = false, SpecificSize = false, DebugMode = false;
 			string PngFile = "";
 			DateTime dtTime = DateTime.Now;
 			int m_Width = -1, m_Height = -1;
