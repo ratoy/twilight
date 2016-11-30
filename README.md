@@ -13,7 +13,7 @@ A tool for generating wallpaper, including the following steps:
 
 It can be used in the bash file:
 ```bash
-/usr/local/bin/mono ~/twilight.exe -d -o ~/screen.png >>~/log
+mono ~/twilight.exe -d -o ~/screen.png >>~/log
 ```
 
 Here is a sample output:
