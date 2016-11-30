@@ -1,24 +1,30 @@
 ﻿<Properties StartupConfiguration="{85DEF39B-0C8A-4523-A645-DAB0EBEBCDF2}|Default">
   <MonoDevelop.Ide.ItemProperties.twilight PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="twilight/PngWriter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="twilight/ImgGenerator/ImgGeneratorGDI.cs">
     <Files>
       <File FileName="twilight/ImgGenerator/BaseImgGenerator.cs" Line="53" Column="43" />
-      <File FileName="twilight/PngWriter.cs" Line="90" Column="56" />
-      <File FileName="twilight/ImgGenerator/ImgGeneratorGDI.cs" Line="50" Column="2" />
+      <File FileName="twilight/PngWriter.cs" Line="115" Column="1" />
+      <File FileName="twilight/ImgGenerator/ImgGeneratorGDI.cs" Line="155" Column="1" />
       <File FileName="twilight/Program.cs" Line="78" Column="3" />
       <File FileName="twilight/todo.txt" Line="1" Column="78" />
       <File FileName="twilight/Geometry/Polygon.cs" Line="13" Column="3" />
       <File FileName="twilight/Geometry/Polyline.cs" Line="43" Column="30" />
       <File FileName="twilight/Style/FillStyle.cs" Line="1" Column="1" />
+      <File FileName="twilight/Style/RgbColor.cs" Line="14" Column="1" />
+      <File FileName="twilight/Style/PointStyle.cs" Line="1" Column="1" />
+      <File FileName="twilight/Style/TextStyle.cs" Line="23" Column="1" />
+      <File FileName="twilight/Geometry/Point.cs" Line="14" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="twilight" expanded="True">
             <Node name="twilight" expanded="True">
-              <Node name="ImgGenerator" expanded="True" />
+              <Node name="Geometry" expanded="True" />
+              <Node name="ImgGenerator" expanded="True">
+                <Node name="ImgGeneratorGDI.cs" selected="True" />
+              </Node>
               <Node name="Style" expanded="True" />
-              <Node name="PngWriter.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -27,7 +33,12 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/wuhao/work/own/twilight/twilight/ImgGenerator/ImgGeneratorGDI.cs" line="167" column="1" />
+      <Breakpoint file="/Users/wuhao/work/own/twilight/twilight/PngWriter.cs" line="114" column="1" />
+      <Breakpoint file="/Users/wuhao/work/own/twilight/twilight/Style/TextStyle.cs" line="23" column="1" />
+      <Breakpoint file="/Users/wuhao/work/own/twilight/twilight/Style/RgbColor.cs" line="23" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

@@ -34,12 +34,13 @@ namespace twilight
 			m_bitmap = new Bitmap(m_Width, m_Height);
 			g = Graphics.FromImage(m_bitmap);
 			g.Clear(StyleToColor(m_BackgroundColor));
+			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 		}
 
 		#region translate
 		Color StyleToColor(RgbColor rgb)
 		{
-			return Color.FromArgb(rgb.Alpha, rgb.Red, rgb.Blue, rgb.Green);
+			return Color.FromArgb(rgb.Alpha, rgb.Red, rgb.Green, rgb.Blue);
 		}
 
 		PointF TransPoint(Point p)

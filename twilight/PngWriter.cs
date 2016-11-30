@@ -91,7 +91,7 @@ namespace twilight
 			big.AddPolygon(Polygontw, Styletw);
 			OutputMsg("twilightline added ...");
 			//add sun
-			PointStyle sunstyle = new PointStyle(255, 255, 0, 5, EnumPointType.Circle);
+			PointStyle sunstyle = new PointStyle(255, 255, 0, 10, EnumPointType.Circle);
 			big.AddPoint(sunpos, sunstyle);
 			OutputMsg("sun added ...");
 			//additional lines
@@ -112,7 +112,7 @@ namespace twilight
 			//add title
 			TextStyle titlestyle = new TextStyle("Arial", 10, 50, 205, 50);
 			string text = m_PngTime.ToString("yyyy-MM-dd HH:mm:ss");
-			big.AddText(text, new Point(-180, 90));
+			big.AddText(text, new Point(-180, 90), titlestyle);
 			OutputMsg("title added ...");
 
 			OutputMsg("saving...");
