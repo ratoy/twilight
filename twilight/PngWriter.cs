@@ -119,6 +119,7 @@ namespace twilight
 			//Envelope pMoonEnv=new Envelope(moonpos.X -3,moonpos.X +3,moonpos.Y -3,moonpos.Y +3);
 			//big.AddImage("moon.png",pMoonEnv);;
 			big.AddImage("moon.png",moonpos);;
+			OutputMsg("moon added ...");
 
 			OutputMsg("additional lines added ...");
 			//add title
