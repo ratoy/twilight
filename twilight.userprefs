@@ -2,31 +2,14 @@
   <MonoDevelop.Ide.ItemProperties.twilight PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="twilight/Style/TextStyle.cs">
     <Files>
-      <File FileName="twilight/ImgGenerator/BaseImgGenerator.cs" Line="114" Column="66" />
-      <File FileName="twilight/PngWriter.cs" Line="106" Column="5" />
-      <File FileName="twilight/ImgGenerator/ImgGeneratorGDI.cs" Line="157" Column="1" />
-      <File FileName="twilight/Program.cs" Line="10" Column="22" />
-      <File FileName="twilight/Geometry/Polygon.cs" Line="13" Column="3" />
-      <File FileName="twilight/Geometry/Polyline.cs" Line="43" Column="30" />
-      <File FileName="twilight/Style/FillStyle.cs" Line="1" Column="1" />
-      <File FileName="twilight/Style/RgbColor.cs" Line="23" Column="1" />
-      <File FileName="twilight/Style/PointStyle.cs" Line="1" Column="1" />
-      <File FileName="twilight/Style/TextStyle.cs" Line="28" Column="29" />
-      <File FileName="twilight/Geometry/Point.cs" Line="14" Column="1" />
-      <File FileName="twilight/SunPos.cs" Line="1" Column="1" />
-      <File FileName="twilight/MoonPos.cs" Line="8" Column="4" />
-      <File FileName="twilight/Style/LineStyle.cs" Line="18" Column="3" />
+      <File FileName="twilight/Style/TextStyle.cs" Line="25" Column="41" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State name="__root__">
+        <State expanded="True">
           <Node name="twilight" expanded="True">
-            <Node name="twilight" expanded="True">
-              <Node name="Geometry" expanded="True" />
-              <Node name="ImgGenerator" expanded="True" />
-              <Node name="Style" expanded="True">
-                <Node name="TextStyle.cs" selected="True" />
-              </Node>
+            <Node name="Style" expanded="True">
+              <Node name="TextStyle.cs" selected="True" />
             </Node>
           </Node>
         </State>

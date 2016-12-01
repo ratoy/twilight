@@ -61,6 +61,7 @@
     <Compile Include="ImgGenerator\BaseImgGenerator.cs" />
     <Compile Include="ImgGenerator\ImgGeneratorGDI.cs" />
     <Compile Include="Style\TextStyle.cs" />
+    <Compile Include="Julian.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
