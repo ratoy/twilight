@@ -6,78 +6,70 @@ namespace twilight
 {
 	public class PngWriter
 	{
-		RgbColor m_BackgroundColor = new RgbColor(181, 208, 208);
-		FillStyle m_ShapeStyle = new FillStyle(242, 239, 233, 201, 140, 198, 1);
-		FillStyle m_TwilightStyle = new FillStyle(100, 0, 0, 0, 255, 0, 0, 0, 1);
-		PointStyle m_SunStyle = new PointStyle(255, 255, 0, 18, EnumPointType.Circle);
-		LineStyle m_AddlineStyle = new LineStyle(80, 80, 80, 1);
-		TextStyle m_TitleStyle = new TextStyle("Arial", 18, true, false, 50, 205, 50);
-
+		RgbColor m_BackgroundColor = new RgbColor (181, 208, 208);
+		FillStyle m_ShapeStyle = new FillStyle (242, 239, 233, 201, 140, 198, 1);
+		FillStyle m_TwilightStyle = new FillStyle (100, 0, 0, 0, 255, 0, 0, 0, 1);
+		PointStyle m_SunStyle = new PointStyle (255, 255, 0, 18, EnumPointType.Circle);
+		LineStyle m_AddlineStyle = new LineStyle (80, 80, 80, 1);
+		TextStyle m_TitleStyle = new TextStyle ("Arial", 18, true, false, 50, 205, 50);
 		String m_DefaultFileName = "screen.png", m_ExeFolder = "";
 		DateTime m_PngTime = DateTime.Now;
 		bool m_DebugMode = false;
 
-		public PngWriter()
+		public PngWriter ()
 		{
 			m_ExeFolder = Application.StartupPath;
 		}
 
-		public bool DebugMode
-		{
+		public bool DebugMode {
 			get { return m_DebugMode; }
 			set { m_DebugMode = value; }
 		}
 
-		void OutputMsg(string Msg)
+		void OutputMsg (string Msg)
 		{
-			if (m_DebugMode)
-			{
-				Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ": " + Msg);
+			if (m_DebugMode) {
+				Console.WriteLine (DateTime.Now.ToString ("yyyy-MM-dd HH:mm:ss") + ": " + Msg);
 			}
 		}
 
-		BaseImgGenerator GetGenerator(int width, int height)
+		BaseImgGenerator GetGenerator (int width, int height)
 		{
-			return new ImgGeneratorGDI(width, height, m_BackgroundColor);
+			return new ImgGeneratorGDI (width, height, m_BackgroundColor);
 		}
 
-		List<string> GetShpFileNames()
+		List<string> GetShpFileNames ()
 		{
-			string[] ShpFileNames = System.IO.Directory.GetFiles(m_ExeFolder, "*.shp");
-			List<string> ShpFileList = new List<string>();
-			ShpFileList.AddRange(ShpFileNames);
+			string[] ShpFileNames = System.IO.Directory.GetFiles (m_ExeFolder, "*.shp");
+			List<string> ShpFileList = new List<string> ();
+			ShpFileList.AddRange (ShpFileNames);
 
-			string ShpFolder2 = System.IO.Path.Combine(m_ExeFolder, "shape");
-			if (System.IO.Directory.Exists(ShpFolder2))
-			{
-				string[] ShpFileNames2 = System.IO.Directory.GetFiles(ShpFolder2, "*.shp");
-				ShpFileList.AddRange(ShpFileNames2);
+			string ShpFolder2 = System.IO.Path.Combine (m_ExeFolder, "shape");
+			if (System.IO.Directory.Exists (ShpFolder2)) {
+				string[] ShpFileNames2 = System.IO.Directory.GetFiles (ShpFolder2, "*.shp");
+				ShpFileList.AddRange (ShpFileNames2);
 			}
 			return ShpFileList;
 		}
 
-		public bool SavePng(DateTime dt, string pngfile, int width = -1, int height = -1)
+		public bool SavePng (DateTime dt, string pngfile, int width = -1, int height = -1)
 		{
-			OutputMsg("begin...");
+			OutputMsg ("begin...");
 
-			BaseImgGenerator big = GetGenerator(width, height);
-			OutputMsg("generator inited ...");
-			if (System.IO.File.Exists("world.jpg"))
-			{
+			BaseImgGenerator big = GetGenerator (width, height);
+			OutputMsg ("generator inited ...");
+			if (System.IO.File.Exists ("world.jpg")) {
 				//add background image
-				big.AddImage("world.jpg", new Envelope(-180, 180, -90, 90));
-				OutputMsg("background image added ...");
-			}
-			else
-			{
+				big.AddImage ("world.jpg", new Envelope (-180, 180, -90, 90));
+				OutputMsg ("background image added ...");
+			} else {
 				//add shapefile
-				List<string> ShpFileList = GetShpFileNames();
+				List<string> ShpFileList = GetShpFileNames ();
 
-				foreach (var item in ShpFileList)
-				{
-					big.AddShapeFile(item, m_ShapeStyle);
+				foreach (var item in ShpFileList) {
+					big.AddShapeFile (item, m_ShapeStyle);
 				}
-				OutputMsg("shapfile added ...");
+				OutputMsg ("shapfile added ...");
 			}
 			//additional lines
 			double[] lon = { -180, 180, -180, 180, -180, 180 };
@@ -120,6 +112,14 @@ namespace twilight
 			//add sun
 			big.AddPoint(sunpos, m_SunStyle);
 			OutputMsg("sun added ...");
+
+			//add moon
+			MoonPos mp=new MoonPos();
+			Point moonpos=mp.GetMoonPos();
+			//Envelope pMoonEnv=new Envelope(moonpos.X -3,moonpos.X +3,moonpos.Y -3,moonpos.Y +3);
+			//big.AddImage("moon.png",pMoonEnv);;
+			big.AddImage("moon.png",moonpos);;
+			OutputMsg("moon added ...");
 
 			OutputMsg("additional lines added ...");
 			//add title
