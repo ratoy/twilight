@@ -1,5 +1,6 @@
 packages/
 *.userprefs
+*.userprefs.orig
 *.exe
 *.pdb
 *.dll
