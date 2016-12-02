@@ -35,6 +35,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -61,6 +64,9 @@
     <Compile Include="ImgGenerator\BaseImgGenerator.cs" />
     <Compile Include="ImgGenerator\ImgGeneratorGDI.cs" />
     <Compile Include="Style\TextStyle.cs" />
+    <Compile Include="Element\IElement.cs" />
+    <Compile Include="Element\VectorElement.cs" />
+    <Compile Include="Element\RasterElement.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -68,8 +74,10 @@
     <Folder Include="Geometry\" />
     <Folder Include="Style\" />
     <Folder Include="ImgGenerator\" />
+    <Folder Include="Element\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="todo.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

@@ -20,6 +20,13 @@ namespace twilight
 		public PngWriter()
 		{
 			m_ExeFolder = Application.StartupPath;
+
+			VectorElement ve = new VectorElement();
+			ve.Style = m_SunStyle;
+			ve.Geometry = new Point(0, 0);
+			//string output = Newtonsoft.Json.JsonConvert.SerializeObject(ve);
+
+			//Console.WriteLine(output);
 		}
 
 		public bool DebugMode

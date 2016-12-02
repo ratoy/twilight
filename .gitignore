@@ -1,3 +1,5 @@
+packages/
+*.userprefs
 *.exe
 *.pdb
 *.dll
