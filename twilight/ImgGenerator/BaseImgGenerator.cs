@@ -5,9 +5,10 @@ namespace twilight
 {
 	public abstract class BaseImgGenerator
 	{
+		protected EmptyStretch m_StrechMode = EmptyStretch.Fill;
 		protected RgbColor m_BackgroundColor = new RgbColor(255, 255, 255);
 		protected int m_Width = 1280, m_Height = 800;
-		protected double m_XMin = -180, m_XMax = 180, m_YMin = -90, m_YMax = 90;
+		protected double m_XMin = -180, m_XMax = 180, m_YMin = -90, m_YMax = 90, m_CenterX, m_CenterY;
 		protected double m_XScale = 1, m_YScale = 1;
 		protected IStyle m_DefaultFillStyle, m_DefaultLineStyle, m_DefaultPointStyle, m_DefaultTextStyle;
 
@@ -50,8 +51,24 @@ namespace twilight
 
 		void CalScale()
 		{
-			m_XScale = m_Width / (m_XMax - m_XMin);
-			m_YScale = m_Height / (m_YMax - m_YMin);
+			m_CenterX = (m_XMax + m_XMin) / 2;
+			m_CenterY = (m_YMax + m_YMin) / 2;
+
+			if (m_StrechMode == EmptyStretch.None)
+			{
+				if (m_Width > m_Height)
+				{
+					m_YScale = m_XScale = m_Width / (m_XMax - m_XMin);
+				}
+				else {
+					m_YScale = m_XScale = m_Height / (m_YMax - m_YMin);
+				}
+			}
+			else
+			{
+				m_XScale = m_Width / (m_XMax - m_XMin);
+				m_YScale = m_Height / (m_YMax - m_YMin);
+			}
 		}
 
 

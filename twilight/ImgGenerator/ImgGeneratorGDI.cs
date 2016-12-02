@@ -46,8 +46,21 @@ namespace twilight
 		PointF TransPoint(Point p)
 		{
 			PointF pf = new PointF();
-			pf.X = (float)((p.X - m_XMin) * m_XScale);
-			pf.Y = (float)(m_Height - (p.Y - m_YMin) * m_YScale);
+			if (m_StrechMode == EmptyStretch.None)
+			{
+				//centerx,centery
+				float cx = m_Width / 2.0f, cy = m_Height / 2.0f;
+				float deltax = (float)((p.X - m_CenterX) * m_XScale);
+				float deltay = (float)((p.Y - m_CenterY) * m_YScale);
+				pf.X = cx + deltax;
+				pf.Y = cy - deltay;
+			}
+			else
+			{
+				pf.X = (float)((p.X - m_XMin) * m_XScale);
+				pf.Y = (float)(m_Height - (p.Y - m_YMin) * m_YScale);
+			}
+
 			return pf;
 		}
 

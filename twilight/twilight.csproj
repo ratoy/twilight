@@ -68,6 +68,7 @@
     <Compile Include="Element\VectorElement.cs" />
     <Compile Include="Element\RasterElement.cs" />
     <Compile Include="Julian.cs" />
+    <Compile Include="ImgGenerator\EmptyStretch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

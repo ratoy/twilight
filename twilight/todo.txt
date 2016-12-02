@@ -1,2 +1,2 @@
 ﻿add config file for style and layer
-add moon position
+edit bat file to generate image and add it to task in windows 

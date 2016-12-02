@@ -1,12 +1,33 @@
 ﻿<Properties StartupConfiguration="{85DEF39B-0C8A-4523-A645-DAB0EBEBCDF2}|Default">
   <MonoDevelop.Ide.ItemProperties.twilight PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="twilight/PngWriter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="twilight/ImgGenerator/EmptyStretch.cs">
     <Files>
-      <File FileName="twilight/Element/IElement.cs" Line="7" Column="3" />
+      <File FileName="twilight/Element/IElement.cs" Line="9" Column="2" />
       <File FileName="twilight/Element/RasterElement.cs" Line="10" Column="35" />
-      <File FileName="twilight/Element/VectorElement.cs" Line="10" Column="28" />
-      <File FileName="twilight/PngWriter.cs" Line="26" Column="4" />
+      <File FileName="twilight/Element/VectorElement.cs" Line="10" Column="29" />
+      <File FileName="twilight/PngWriter.cs" Line="32" Column="20" />
+      <File FileName="twilight/MoonPos.cs" Line="23" Column="33" />
+      <File FileName="twilight/Julian.cs" Line="10" Column="3" />
+      <File FileName="twilight/todo.txt" Line="2" Column="52" />
+      <File FileName="twilight/ImgGenerator/BaseImgGenerator.cs" Line="54" Column="26" />
+      <File FileName="twilight/ImgGenerator/ImgGeneratorGDI.cs" Line="55" Column="48" />
+      <File FileName="twilight/ImgGenerator/EmptyStretch.cs" Line="6" Column="13" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="twilight" expanded="True">
+            <Node name="twilight" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="Element" expanded="True" />
+              <Node name="ImgGenerator" expanded="True">
+                <Node name="EmptyStretch.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
