@@ -58,9 +58,10 @@ namespace twilight
 
 			BaseImgGenerator big = GetGenerator (width, height);
 			OutputMsg ("generator inited ...");
-			if (System.IO.File.Exists ("world.jpg")) {
+			String ImgFile = System.IO.Path.Combine (m_ExeFolder, "world.jpg");
+			if (System.IO.File.Exists (ImgFile)) {
 				//add background image
-				big.AddImage ("world.jpg", new Envelope (-180, 180, -90, 90));
+				big.AddImage (ImgFile, new Envelope (-180, 180, -90, 90));
 				OutputMsg ("background image added ...");
 			} else {
 				//add shapefile
